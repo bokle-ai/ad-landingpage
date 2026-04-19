@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
-import { Menu, X, Sparkles, ArrowRight } from "lucide-react";
+import { Menu, X, ArrowRight } from "lucide-react";
 import { useState } from "react";
 
 const LINKS = [
@@ -33,13 +33,8 @@ export default function Nav() {
         }`}
       >
         <div className="mx-auto max-w-[1400px] px-6 md:px-10 py-4 flex items-center justify-between">
-          <a href="#top" className="flex items-center gap-2 group">
-            <span className="relative flex h-8 w-8 items-center justify-center rounded-full border border-brand-accent/40 bg-brand-accent/10">
-              <Sparkles className="h-4 w-4 text-brand-accent" />
-            </span>
-            <span className="text-white font-medium tracking-tight text-lg">
-              Bokle<span className="italic-serif text-brand-accent"> AI</span>
-            </span>
+          <a href="#top" className="flex items-center group" aria-label="Bokle AI home">
+            <img src="/logo.svg" alt="Bokle AI" className="h-9 w-auto" />
           </a>
 
           <ul className="hidden lg:flex items-center gap-9">
@@ -97,9 +92,7 @@ export default function Nav() {
             className="fixed inset-0 z-[60] bg-bg-primary/98 backdrop-blur-2xl lg:hidden"
           >
             <div className="flex items-center justify-between px-6 py-4">
-              <span className="text-white font-medium text-lg">
-                Bokle<span className="italic-serif text-brand-accent"> AI</span>
-              </span>
+              <img src="/logo.svg" alt="Bokle AI" className="h-8 w-auto" />
               <button
                 onClick={() => setOpen(false)}
                 aria-label="Close menu"

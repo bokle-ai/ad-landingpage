@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Instagram, Linkedin, Mail, Twitter, Sparkles } from "lucide-react";
+import { Instagram, Linkedin, Mail, Twitter } from "lucide-react";
 
 const SITEMAP = [
   { label: "How It Works", href: "#how" },
@@ -17,13 +17,8 @@ export default function Footer() {
       <div className="mx-auto max-w-[1400px] px-6 md:px-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
           <div>
-            <div className="flex items-center gap-2">
-              <span className="flex h-9 w-9 items-center justify-center rounded-full border border-brand-accent/40 bg-brand-accent/10">
-                <Sparkles className="h-4 w-4 text-brand-accent" />
-              </span>
-              <span className="text-white font-medium text-xl">
-                Bokle<span className="italic-serif text-brand-accent"> AI</span>
-              </span>
+            <div className="flex items-center">
+              <img src="/logo.svg" alt="Bokle AI" className="h-10 w-auto" />
             </div>
             <p className="mt-6 italic-serif text-cream text-2xl leading-[1.15] max-w-sm">
               AI agents for businesses that never want to miss a lead.
