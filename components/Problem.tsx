@@ -70,7 +70,7 @@ export default function Problem() {
                     {s.textOverride ? (
                       s.textOverride
                     ) : (
-                      <CountUp to={s.value} suffix={s.suffix ?? ""} />
+                      <CountUp end={s.value} suffix={s.suffix ?? ""} />
                     )}
                   </div>
                   <p className="mt-3 text-base text-body leading-relaxed max-w-xs">

@@ -4,7 +4,6 @@ import { Fragment } from "react";
 import { motion } from "framer-motion";
 import { MessageCircle, Zap, UserCheck } from "lucide-react";
 import Image from "next/image";
-import DemoWidget from "./DemoWidget";
 
 /* ── Step data ─────────────────────────────────────────────────── */
 const STEPS = [
@@ -164,13 +163,50 @@ export default function HowItWorks() {
           ))}
         </div>
 
+        {/* ── Relief person image strip ─────────────────────────── */}
+        <div style={{
+          position: 'relative',
+          height: '190px',
+          borderRadius: '12px',
+          overflow: 'hidden',
+          margin: '56px 0',
+          border: '1px solid rgba(21,98,27,0.2)'
+        }}>
+          <Image
+            src="/relief-person.jpg"
+            alt=""
+            fill
+            style={{ objectFit: 'cover', objectPosition: 'center 20%' }}
+          />
+          <div style={{
+            position: 'absolute', inset: 0,
+            background: 'linear-gradient(to right, rgba(5,10,6,0.65) 0%, rgba(5,10,6,0.2) 50%, rgba(5,10,6,0.65) 100%)'
+          }} />
+          <div style={{
+            position: 'absolute', inset: 0,
+            display: 'flex', alignItems: 'center', justifyContent: 'center'
+          }}>
+            <p style={{
+              fontFamily: 'Instrument Serif, serif',
+              fontStyle: 'italic',
+              fontSize: '18px',
+              color: 'rgba(255,255,255,0.8)',
+              textAlign: 'center',
+              maxWidth: '500px',
+              padding: '0 24px'
+            }}>
+              This is what your business looks like with Bokle running.
+            </p>
+          </div>
+        </div>
+
         {/* ── Horizontal rule ───────────────────────────────────── */}
         <motion.div
           initial={{ scaleX: 0, opacity: 0 }}
           whileInView={{ scaleX: 1, opacity: 1 }}
           viewport={VIEWPORT}
           transition={{ duration: 0.7, delay: 0.2, ease: EASE }}
-          className="mt-[60px] origin-left"
+          className="origin-left"
           style={{ height: 1, background: "rgba(21,98,27,0.2)" }}
         />
 
@@ -208,49 +244,6 @@ export default function HowItWorks() {
         </motion.div>
 
       </div>
-
-      {/* Relief person image strip */}
-      <div className="mx-auto max-w-[1200px] px-6 md:px-10 mt-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="relative overflow-hidden rounded-[12px] md:h-[200px] h-[140px]"
-          style={{ border: "1px solid rgba(21,98,27,0.2)" }}
-        >
-          <Image
-            src="/relief-person.jpg"
-            alt="Business owner with Bokle AI running"
-            fill
-            style={{ objectFit: "cover", objectPosition: "center 20%" }}
-          />
-          {/* Dark overlay */}
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(to right, rgba(5,10,6,0.5) 0%, rgba(5,10,6,0.1) 50%, rgba(5,10,6,0.6) 100%)",
-            }}
-          />
-          {/* Centred caption */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <p
-              style={{
-                fontFamily: "var(--font-instrument-serif), serif",
-                fontStyle: "italic",
-                fontSize: 18,
-                color: "rgba(255,255,255,0.8)",
-              }}
-            >
-              This is what your business looks like with Bokle running.
-            </p>
-          </div>
-        </motion.div>
-      </div>
-
-      {/* Demo widget (retained from previous build) */}
-      <DemoWidget />
     </section>
   );
 }

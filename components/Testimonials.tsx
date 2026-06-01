@@ -21,18 +21,18 @@ const CARDS = [
     flag: "🇦🇪",
     photo: "/testimonial-aisha.jpg",
     name: "Aisha K.",
-    role: "Practice Manager, Aesthetic Clinic · Dubai, UAE",
+    role: "Practice Manager · Dubai, UAE",
     quote:
-      "Every competitor in JLT was already running some form of WhatsApp response. We couldn't afford to be the slow ones. Setup was faster than I expected and the Arabic response quality was genuinely impressive.",
+      "Every competitor in JLT was already running WhatsApp response. We couldn't afford to be the slow ones. Setup was faster than I expected and the Arabic response quality was genuinely impressive.",
     chip: "Live in 48 Hours",
   },
   {
     flag: "🇺🇸",
     photo: "/testimonial-james.jpg",
     name: "James P.",
-    role: "Real Estate Brokerage Owner · New York, USA",
+    role: "Real Estate Owner · New York, USA",
     quote:
-      "Weekend leads were a black hole. By Monday they had toured with someone else. Our Bokle voice agent follows up within 30 seconds — even on Sunday nights. Conversion up 35% in month one.",
+      "Weekend leads were a black hole. By Monday they had toured with someone else. Our Bokle voice agent follows up in 30 seconds — even on Sunday nights. Conversion up 35% in month one.",
     chip: "+35% Lead Conversion",
   },
 ];
