@@ -113,3 +113,25 @@ body {
   animation: waveform 1s ease-in-out infinite;
   transform-origin: bottom;
 }
+
+/* Grain texture overlay — applied per section */
+.grain-overlay {
+  position: relative;
+}
+.grain-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/grain.png');
+  background-repeat: repeat;
+  background-size: 256px 256px;
+  opacity: 0.035;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Ensure section children appear above grain */
+.grain-overlay > * {
+  position: relative;
+  z-index: 3;
+}

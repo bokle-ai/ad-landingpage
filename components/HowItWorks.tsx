@@ -3,6 +3,7 @@
 import { Fragment } from "react";
 import { motion } from "framer-motion";
 import { MessageCircle, Zap, UserCheck } from "lucide-react";
+import Image from "next/image";
 import DemoWidget from "./DemoWidget";
 
 /* ── Step data ─────────────────────────────────────────────────── */
@@ -23,7 +24,7 @@ const STEPS = [
     num: "03",
     Icon: UserCheck,
     title: "You get a qualified lead",
-    body: "Routed to your team with full context. No chasing. No cold follow-ups. No missed revenue.",
+    body: "Routed to your team with full context. No chasing. No cold follow-ups. No missed revenue. Your team only talks to serious buyers.",
   },
 ];
 
@@ -209,30 +210,40 @@ export default function HowItWorks() {
       </div>
 
       {/* Relief person image strip */}
-      <div className="mx-auto max-w-[1200px] px-6 md:px-10 mt-20">
+      <div className="mx-auto max-w-[1200px] px-6 md:px-10 mt-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="relative overflow-hidden rounded-2xl"
-          style={{ height: 320 }}
+          className="relative overflow-hidden rounded-[12px] md:h-[200px] h-[140px]"
+          style={{ border: "1px solid rgba(21,98,27,0.2)" }}
         >
-          <img
+          <Image
             src="/relief-person.png"
-            alt="Business owner relaxing, checking phone"
-            className="absolute inset-0 w-full h-full object-cover object-top"
+            alt="Business owner with Bokle AI running"
+            fill
+            style={{ objectFit: "cover", objectPosition: "center 20%" }}
           />
+          {/* Dark overlay */}
           <div
             className="absolute inset-0"
-            style={{ background: "linear-gradient(90deg, rgba(5,10,6,0.0) 40%, rgba(5,10,6,0.7) 100%)" }}
+            style={{
+              background:
+                "linear-gradient(to right, rgba(5,10,6,0.5) 0%, rgba(5,10,6,0.1) 50%, rgba(5,10,6,0.6) 100%)",
+            }}
           />
-          <div className="absolute bottom-6 right-8 text-right">
-            <p className="text-white font-medium" style={{ fontSize: 15 }}>
-              Your team focuses on conversations that close.
-            </p>
-            <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", marginTop: 4 }}>
-              Bokle handles everything before that point.
+          {/* Centred caption */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <p
+              style={{
+                fontFamily: "var(--font-instrument-serif), serif",
+                fontStyle: "italic",
+                fontSize: 18,
+                color: "rgba(255,255,255,0.8)",
+              }}
+            >
+              This is what your business looks like with Bokle running.
             </p>
           </div>
         </motion.div>

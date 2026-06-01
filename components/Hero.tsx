@@ -13,6 +13,7 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from "react";
 import { ArrowRight, ArrowUpRight, PhoneOff } from "lucide-react";
+import Image from "next/image";
 import Headline from "./Headline";
 import SparkleGlyphs from "./SparkleGlyphs";
 
@@ -52,37 +53,34 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="relative overflow-hidden bg-bg-primary pb-20 pt-36 md:pb-24 md:pt-40"
+      className="grain-overlay relative overflow-hidden bg-bg-primary pb-20 pt-36 md:pb-24 md:pt-40"
     >
       <SparkleGlyphs count={14} />
 
       {/* Hero background photo */}
-      <div
-        aria-hidden
-        className="absolute inset-0"
-        style={{
-          backgroundImage: "url('/hero-bg.png')",
-          backgroundSize: "cover",
-          backgroundPosition: "center right",
-          backgroundRepeat: "no-repeat",
-        }}
-      />
-      {/* Dark overlay on top of photo */}
-      <div
-        aria-hidden
-        className="absolute inset-0"
-        style={{ background: "linear-gradient(120deg, rgba(5,10,6,0.92) 0%, rgba(5,10,6,0.70) 50%, rgba(5,10,6,0.35) 100%)" }}
-      />
-      {/* Grain texture */}
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage: "url('/grain.png')",
-          backgroundRepeat: "repeat",
-          opacity: 0.045,
-        }}
-      />
+      <div aria-hidden className="absolute inset-0 z-0 overflow-hidden">
+        <Image
+          src="/hero-bg.png"
+          alt=""
+          fill
+          priority
+          style={{ objectFit: "cover", objectPosition: "center" }}
+        />
+        {/* Directional gradient overlay */}
+        <div
+          className="absolute inset-0 hidden md:block"
+          style={{
+            background:
+              "linear-gradient(to right, rgba(5,10,6,0.97) 0%, rgba(5,10,6,0.90) 40%, rgba(5,10,6,0.65) 70%, rgba(5,10,6,0.45) 100%)",
+          }}
+        />
+        {/* Mobile: solid overlay */}
+        <div
+          className="absolute inset-0 md:hidden"
+          style={{ background: "rgba(5,10,6,0.93)" }}
+        />
+      </div>
+
       {/* Background radial wash */}
       <div
         aria-hidden
@@ -135,7 +133,7 @@ export default function Hero() {
                 href="#discovery-call"
                 className="btn-pill-primary"
               >
-                Book My Free Funnel Audit
+                Book My Free Discovery Call
                 <ArrowRight className="h-4 w-4" />
               </motion.a>
               <motion.a

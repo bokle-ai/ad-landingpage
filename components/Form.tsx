@@ -132,12 +132,10 @@ export default function DiscoveryForm() {
       initial="hidden"
       whileInView="visible"
       viewport={sectionViewport}
-      className="relative py-24 md:py-40 scroll-mt-20"
+      className="grain-overlay relative py-24 md:py-40 scroll-mt-20"
       style={{ background: "#080808" }}
     >
-      {/* Grain overlay */}
-      <div aria-hidden className="pointer-events-none absolute inset-0" style={{ backgroundImage: "url('/grain.png')", backgroundRepeat: "repeat", opacity: 0.05 }} />
-      <div className="mx-auto max-w-[1400px] px-6 md:px-10 relative">
+      <div className="mx-auto max-w-[1400px] px-6 md:px-10">
         <SectionLabel className="mb-10">— 09 / Let&apos;s Talk</SectionLabel>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
@@ -149,7 +147,7 @@ export default function DiscoveryForm() {
             className="lg:col-span-5"
           >
             <h2 className="italic-serif text-cream text-5xl md:text-6xl lg:text-7xl leading-[1.02]">
-              Free discovery call.
+              Let&apos;s find exactly where your leads are leaking.
             </h2>
             <p className="mt-8 text-body text-lg leading-relaxed max-w-md">
               Tell us a little about your business and we&apos;ll reach out on

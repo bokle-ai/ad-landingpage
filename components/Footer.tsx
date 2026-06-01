@@ -44,14 +44,14 @@ export default function Footer() {
           <div>
             <div className="section-label mb-6">Contact</div>
             <a
-              href="mailto:hello@bokle.ai"
+              href="mailto:hello@bokle.in"
               className="text-white/90 hover:text-brand-accent transition-colors text-lg"
             >
-              hello@bokle.ai
+              hello@bokle.in
             </a>
             <div className="mt-8 flex items-center gap-3">
               {[
-                { Icon: Mail, href: "mailto:hello@bokle.ai", label: "Email" },
+                { Icon: Mail, href: "mailto:hello@bokle.in", label: "Email" },
                 { Icon: Linkedin, href: "#", label: "LinkedIn" },
                 { Icon: Instagram, href: "#", label: "Instagram" },
                 { Icon: Twitter, href: "#", label: "Twitter" },

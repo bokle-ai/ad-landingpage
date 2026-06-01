@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { sectionReveal, sectionViewport } from "@/lib/motion";
 import ResultsTicker from "./testimonials/ResultsTicker";
 import SectionLabel from "./SectionLabel";
@@ -77,11 +78,13 @@ export default function Testimonials() {
             >
               {/* Avatar + name row */}
               <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 12 }}>
-                <div style={{ width: 44, height: 44, borderRadius: "50%", overflow: "hidden", flexShrink: 0, border: "1.5px solid rgba(0,198,15,0.35)" }}>
-                  <img
+                <div style={{ width: 44, height: 44, borderRadius: "50%", overflow: "hidden", flexShrink: 0, border: "1.5px solid rgba(0,198,15,0.35)", position: "relative" }}>
+                  <Image
                     src={card.photo}
                     alt={card.name}
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    width={44}
+                    height={44}
+                    style={{ borderRadius: "50%", objectFit: "cover", objectPosition: "center top" }}
                   />
                 </div>
                 <div>

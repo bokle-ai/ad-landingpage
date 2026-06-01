@@ -5,10 +5,19 @@ import { useMemo } from "react";
 
 const GLYPHS = ["+", "×", "✦"];
 
-export default function SparkleGlyphs({ count = 22 }: { count?: number }) {
+export default function SparkleGlyphs({
+  count = 22,
+  section,
+}: {
+  count?: number;
+  section?: "hero" | "other";
+}) {
+  const isOther = section === "other";
+  const renderCount = isOther ? Math.min(count, 4) : count;
+
   const items = useMemo(
     () =>
-      Array.from({ length: count }).map((_, i) => {
+      Array.from({ length: renderCount }).map((_, i) => {
         const seed = (i * 9301 + 49297) % 233280;
         const rand = (n: number) => ((seed * (n + 1)) % 233280) / 233280;
         return {
@@ -20,7 +29,7 @@ export default function SparkleGlyphs({ count = 22 }: { count?: number }) {
           delay: rand(5) * 4,
         };
       }),
-    [count]
+    [renderCount]
   );
 
   return (
@@ -36,9 +45,9 @@ export default function SparkleGlyphs({ count = 22 }: { count?: number }) {
             top: it.top,
             left: it.left,
             fontSize: it.size,
-            opacity: 0.08,
+            opacity: isOther ? 0.03 : 0.08,
           }}
-          animate={{ opacity: [0.04, 0.22, 0.04] }}
+          animate={{ opacity: isOther ? [0.01, 0.03, 0.01] : [0.04, 0.22, 0.04] }}
           transition={{
             duration: it.duration,
             delay: it.delay,
