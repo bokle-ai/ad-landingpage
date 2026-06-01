@@ -41,7 +41,7 @@ export default function Channels() {
           <div className="lg:col-span-6">
             <Headline
               as="h2"
-              className="text-[12vw] md:text-[8vw] lg:text-[6vw] font-bold leading-[0.92] tracking-[-0.035em] text-white"
+              className="text-[clamp(1.8rem,8vw,5.5rem)] font-bold leading-[0.92] tracking-[-0.035em] text-white"
               lines={[
                 { text: "Reply instantly" },
                 { text: "across every channel.", italic: true },

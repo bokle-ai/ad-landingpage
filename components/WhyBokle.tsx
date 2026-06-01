@@ -45,7 +45,7 @@ export default function WhyBokle() {
         <div className="max-w-5xl mx-auto text-center">
           <Headline
             as="h2"
-            className="text-[12vw] md:text-[8vw] lg:text-[6.4vw] font-bold leading-[0.92] tracking-[-0.035em] text-white"
+            className="text-[clamp(1.8rem,8vw,5.5rem)] font-bold leading-[0.92] tracking-[-0.035em] text-white"
             lines={[
               { text: "Not just automation." },
               { text: "A business that never sleeps.", italic: true },

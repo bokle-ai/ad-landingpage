@@ -1,74 +1,42 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ReactNode } from "react";
 import { sectionReveal, sectionViewport } from "@/lib/motion";
 import ResultsTicker from "./testimonials/ResultsTicker";
-import IllustrationPhone from "./testimonials/IllustrationPhone";
-import IllustrationVoice from "./testimonials/IllustrationVoice";
-import IllustrationFunnel from "./testimonials/IllustrationFunnel";
 import SectionLabel from "./SectionLabel";
 
-type Block = {
-  num: string;
-  quote: string;
-  proof: string;
-  name: string;
-  business: string;
-  city: string;
-  tag: string;
-  Illustration: () => ReactNode;
-};
-
-const BLOCKS: Block[] = [
+/* ── Card data ─────────────────────────────────────────────────── */
+const CARDS = [
   {
-    num: "01",
+    flag: "🇮🇳",
+    photo: "/testimonial-ravi.png",
+    name: "Ravi M.",
+    role: "Dental Chain Owner · Chennai, India",
     quote:
-      "Bokle AI replied to a WhatsApp enquiry at 2am. By morning it was a confirmed booking. That one lead alone covered our entire setup cost.",
-    proof: "ROI achieved in the first week",
-    name: "Sarah J.",
-    business: "Real Estate Agency",
-    city: "Dubai, UAE",
-    tag: "Real Estate",
-    Illustration: IllustrationPhone,
+      "We were losing 40-50 leads a week after 7pm. The front desk goes home, enquiries pile up. Bokle set up our WhatsApp agent in 2 days. We now book appointments overnight without anyone on duty.",
+    chip: "+60% After-Hours Bookings",
   },
   {
-    num: "02",
+    flag: "🇦🇪",
+    photo: "/testimonial-aisha.png",
+    name: "Aisha K.",
+    role: "Practice Manager, Aesthetic Clinic · Dubai, UAE",
     quote:
-      "We used to lose every lead that came in on weekends. Now our AI voice agent handles them all. Our conversion rate went up 40% in the first month — without hiring a single extra person.",
-    proof: "40% conversion increase in 30 days",
-    name: "Dr. Marcus Lee",
-    business: "Dental Clinic",
-    city: "New York, USA",
-    tag: "Healthcare",
-    Illustration: IllustrationVoice,
+      "Every competitor in JLT was already running some form of WhatsApp response. We couldn't afford to be the slow ones. Setup was faster than I expected and the Arabic response quality was genuinely impressive.",
+    chip: "Live in 48 Hours",
   },
   {
-    num: "03",
+    flag: "🇺🇸",
+    photo: "/testimonial-james.png",
+    name: "James P.",
+    role: "Real Estate Brokerage Owner · New York, USA",
     quote:
-      "I was sceptical. Setup took 48 hours and the team handled absolutely everything. I just started receiving fully qualified leads with context. It felt like having a full sales team overnight.",
-    proof: "Full pipeline automated in 48 hours",
-    name: "Priya Nair",
-    business: "E-commerce Brand",
-    city: "Mumbai, India",
-    tag: "E-commerce",
-    Illustration: IllustrationFunnel,
+      "Weekend leads were a black hole. By Monday they had toured with someone else. Our Bokle voice agent follows up within 30 seconds — even on Sunday nights. Conversion up 35% in month one.",
+    chip: "+35% Lead Conversion",
   },
 ];
 
-function Divider({ delay = 0 }: { delay?: number }) {
-  return (
-    <motion.span
-      aria-hidden
-      initial={{ scaleX: 0 }}
-      whileInView={{ scaleX: 1 }}
-      viewport={{ once: true, amount: 0.4 }}
-      transition={{ duration: 0.9, delay, ease: [0.22, 1, 0.36, 1] }}
-      className="block h-px w-full bg-brand-accent/60 origin-left"
-    />
-  );
-}
-
+/* ================================================================ */
 export default function Testimonials() {
   return (
     <motion.section
@@ -78,96 +46,98 @@ export default function Testimonials() {
       viewport={sectionViewport}
       className="relative bg-bg-primary"
     >
-      {/* PART A — Results ticker */}
+      {/* Results ticker — unchanged */}
       <ResultsTicker />
 
-      {/* PART B — Editorial testimonial blocks */}
+      {/* Testimonial cards */}
       <div className="mx-auto max-w-[1400px] px-6 md:px-10 py-24 md:py-32">
-        <SectionLabel className="mb-16">— 07 / Client Stories</SectionLabel>
+        <SectionLabel className="mb-16">— WHAT CLIENTS SAY</SectionLabel>
 
-        <Divider />
+        <div className="flex flex-col md:flex-row gap-6">
+          {CARDS.map((card, i) => (
+            <motion.div
+              key={card.name}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{
+                duration: 0.6,
+                delay: i * 0.12,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              style={{
+                flex: 1,
+                background: "rgba(255, 255, 255, 0.03)",
+                border: "1px solid rgba(21, 98, 27, 0.35)",
+                borderRadius: 4,
+                padding: 28,
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              {/* Avatar + name row */}
+              <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 12 }}>
+                <div style={{ width: 44, height: 44, borderRadius: "50%", overflow: "hidden", flexShrink: 0, border: "1.5px solid rgba(0,198,15,0.35)" }}>
+                  <img
+                    src={card.photo}
+                    alt={card.name}
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  />
+                </div>
+                <div>
+                  <div style={{ fontWeight: 600, fontSize: 15, color: "#ffffff" }}>
+                    {card.name} <span style={{ fontSize: 14 }}>{card.flag}</span>
+                  </div>
+                </div>
+              </div>
 
-        {BLOCKS.map((b, i) => {
-          const { Illustration } = b;
-          return (
-            <div key={b.num}>
-              <motion.article
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{
-                  duration: 0.8,
-                  delay: i * 0.15,
-                  ease: [0.22, 1, 0.36, 1],
+              {/* Role */}
+              <div
+                style={{
+                  marginTop: 4,
+                  marginBottom: 20,
+                  fontSize: 13,
+                  color: "rgba(255, 255, 255, 0.4)",
                 }}
-                className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 py-16 md:py-24 items-start"
               >
-                {/* LEFT — identifier (22%) */}
-                <div className="lg:col-span-3">
-                  <div className="text-[80px] font-bold text-brand-accent leading-none tracking-[-0.04em]">
-                    {b.num}
-                  </div>
-                  <div className="mt-8 text-sm font-bold tracking-[0.2em] text-white uppercase">
-                    {b.name}
-                  </div>
-                  <div className="mt-2 text-sm text-body leading-snug">
-                    {b.business}
-                    <br />
-                    {b.city}
-                  </div>
-                  <span className="mt-6 inline-flex items-center rounded-full bg-brand-accent/10 border border-brand-accent/40 px-3 py-1.5 text-[10px] font-bold tracking-[0.22em] text-brand-accent uppercase">
-                    {b.tag}
-                  </span>
-                </div>
+                {card.role}
+              </div>
 
-                {/* CENTER — quote (50%) */}
-                <div className="lg:col-span-6">
-                  <motion.span
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true, amount: 0.3 }}
-                    transition={{ duration: 0.5, delay: 0.1 }}
-                    className="italic-serif block text-brand-accent leading-none"
-                    style={{ fontSize: 96 }}
-                    aria-hidden
-                  >
-                    &ldquo;
-                  </motion.span>
-                  <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.3 }}
-                    transition={{ duration: 0.7, delay: 0.2 }}
-                    className="italic-serif text-white text-2xl md:text-[28px] leading-[1.4] -mt-4"
-                  >
-                    {b.quote}
-                  </motion.p>
-                  <motion.div
-                    initial={{ opacity: 0, y: 12, scale: 0.96 }}
-                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                    viewport={{ once: true, amount: 0.3 }}
-                    transition={{
-                      type: "spring",
-                      damping: 14,
-                      stiffness: 160,
-                      delay: 0.5,
-                    }}
-                    className="mt-8 text-brand-accent font-bold text-2xl md:text-[36px] leading-[1.1] tracking-[-0.02em]"
-                  >
-                    {b.proof}
-                  </motion.div>
-                </div>
+              {/* Quote — plain paragraph, no italic, no quotation marks */}
+              <p
+                style={{
+                  margin: 0,
+                  fontSize: 15,
+                  color: "rgba(255, 255, 255, 0.55)",
+                  lineHeight: 1.7,
+                  flexGrow: 1,
+                }}
+              >
+                {card.quote}
+              </p>
 
-                {/* RIGHT — illustration (28%) */}
-                <div className="lg:col-span-3 flex justify-center lg:justify-end w-full">
-                  <Illustration />
-                </div>
-              </motion.article>
-
-              <Divider delay={0.1} />
-            </div>
-          );
-        })}
+              {/* Metric chip */}
+              <div style={{ marginTop: 24 }}>
+                <span
+                  style={{
+                    display: "inline-flex",
+                    background: "rgba(21, 98, 27, 0.4)",
+                    border: "1px solid rgba(0, 198, 15, 0.3)",
+                    borderRadius: 100,
+                    padding: "5px 12px",
+                    color: "#00C60F",
+                    fontWeight: 700,
+                    fontSize: 11,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.1em",
+                  }}
+                >
+                  {card.chip}
+                </span>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </motion.section>
   );

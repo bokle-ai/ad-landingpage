@@ -56,14 +56,16 @@ export default function Footer() {
                 { Icon: Instagram, href: "#", label: "Instagram" },
                 { Icon: Twitter, href: "#", label: "Twitter" },
               ].map(({ Icon, href, label }) => (
-                <a
+                <motion.a
                   key={label}
                   href={href}
                   aria-label={label}
+                  whileHover={{ scale: 1.15, rotate: 5 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
                   className="h-10 w-10 rounded-full bg-brand-accent/10 border border-brand-accent/30 flex items-center justify-center text-brand-accent hover:bg-brand-accent hover:text-bg-primary transition-colors"
                 >
                   <Icon className="h-4 w-4" />
-                </a>
+                </motion.a>
               ))}
             </div>
           </div>

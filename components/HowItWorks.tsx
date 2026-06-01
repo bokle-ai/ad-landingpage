@@ -1,104 +1,245 @@
 "use client";
 
+import { Fragment } from "react";
 import { motion } from "framer-motion";
-import { Check, Inbox, Sparkles, ArrowRight } from "lucide-react";
-import { sectionReveal, sectionViewport } from "@/lib/motion";
-import Headline from "./Headline";
+import { MessageCircle, Zap, UserCheck } from "lucide-react";
 import DemoWidget from "./DemoWidget";
-import SectionLabel from "./SectionLabel";
 
+/* ── Step data ─────────────────────────────────────────────────── */
 const STEPS = [
   {
     num: "01",
-    title: "Enquiry Comes In",
-    desc: "A lead reaches out — WhatsApp, call, chat, or form.",
-    icon: Inbox,
+    Icon: MessageCircle,
+    title: "They reach out",
+    body: "On WhatsApp, your website, or by phone. Day or night. In any language.",
   },
   {
     num: "02",
-    title: "Bokle AI Responds",
-    desc: "In under 30 seconds. In their language. With your voice.",
-    icon: Sparkles,
+    Icon: Zap,
+    title: "Bokle AI responds instantly",
+    body: "In under 30 seconds. Qualifies their intent. Answers their questions. Speaks your business's voice.",
   },
   {
     num: "03",
-    title: "Qualified Lead Delivered",
-    desc: "Routed to your team with context, intent, and next steps.",
-    icon: Check,
+    Icon: UserCheck,
+    title: "You get a qualified lead",
+    body: "Routed to your team with full context. No chasing. No cold follow-ups. No missed revenue.",
   },
 ];
 
+/* ── Shared animation config ──────────────────────────────────── */
+const VIEWPORT = { once: true, amount: 0.3 } as const;
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+/* ================================================================ */
 export default function HowItWorks() {
   return (
-    <motion.section
+    <section
       id="how"
-      variants={sectionReveal}
-      initial="hidden"
-      whileInView="visible"
-      viewport={sectionViewport}
-      className="relative bg-bg-primary py-24 md:py-40"
+      className="relative bg-bg-primary"
+      style={{ paddingTop: 120, paddingBottom: 120 }}
     >
-      <div className="mx-auto max-w-[1400px] px-6 md:px-10">
-        <SectionLabel className="mb-8">— 03 / How It Works</SectionLabel>
+      <div className="mx-auto max-w-[1200px] px-6 md:px-10">
 
-        <div className="max-w-4xl">
-          <Headline
-            as="h2"
-            className="text-[12vw] md:text-[8vw] lg:text-[5.6vw] font-bold leading-[0.92] tracking-[-0.035em] text-white"
-            lines={[
-              { text: "From missed enquiry" },
-              { text: "to qualified lead.", italic: true, className: "!text-brand-accent" },
-            ]}
-          />
-          <p className="mt-8 text-lg md:text-xl text-body max-w-md leading-relaxed">
-            Three steps. No forms queued overnight. No leads gone cold.
-            <span className="italic-serif text-cream"> In seconds, not hours.</span>
-          </p>
-        </div>
+        {/* ── Section label ─────────────────────────────────────── */}
+        <motion.p
+          initial={{ opacity: 0, x: -14 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={VIEWPORT}
+          transition={{ duration: 0.4, ease: EASE }}
+          className="mb-5 font-medium uppercase text-brand-accent"
+          style={{ fontSize: 11, letterSpacing: "0.15em" }}
+        >
+          — 03 / HOW IT WORKS
+        </motion.p>
 
-        <div className="mt-20 md:mt-28 relative">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-            {STEPS.map((step, i) => (
+        {/* ── Headline ──────────────────────────────────────────── */}
+        <motion.h2
+          initial={{ opacity: 0, y: 22 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={VIEWPORT}
+          transition={{ duration: 0.7, delay: 0.08, ease: EASE }}
+          className="font-bold text-white"
+          style={{ fontSize: "clamp(2rem, 4.5vw, 3.5rem)", lineHeight: 1.1 }}
+        >
+          From{" "}
+          <span className="italic-serif font-normal text-cream">
+            missed enquiry
+          </span>
+          <br />
+          to booked appointment.
+          <br />
+          In under 30 seconds.
+        </motion.h2>
+
+        {/* ── Three steps ───────────────────────────────────────── */}
+        <div
+          className="mt-20 flex flex-col md:flex-row md:items-start"
+          role="list"
+        >
+          {STEPS.map((step, i) => (
+            <Fragment key={step.num}>
+              {/* Step */}
               <motion.div
-                key={step.num}
-                initial={{ opacity: 0, y: 40 }}
+                role="listitem"
+                initial={{ opacity: 0, y: 28 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3, margin: "0px 0px -100px 0px" }}
-                transition={{ duration: 0.7, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-                whileHover={{ y: -4 }}
-                className="group relative rounded-3xl border border-white/10 bg-bg-alt/60 p-7 md:p-8 hover:border-brand-accent/50 transition-colors"
+                viewport={VIEWPORT}
+                transition={{ duration: 0.65, delay: i * 0.13, ease: EASE }}
+                className="flex-1"
+                style={{ paddingBottom: i < STEPS.length - 1 ? 40 : 0 }}
               >
-                <div className="flex items-center justify-between">
-                  <span className="text-5xl md:text-6xl font-bold text-brand-accent tracking-tighter leading-none">
-                    {step.num}
-                  </span>
-                  <span className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-bg-primary/60 text-brand-accent group-hover:border-brand-accent/50 transition-colors">
-                    <step.icon className="h-4.5 w-4.5" />
-                  </span>
-                </div>
-
-                <h3 className="mt-10 text-2xl md:text-[26px] font-medium text-white tracking-tight leading-snug">
-                  {step.title}
-                </h3>
-                <p className="mt-3 text-body text-base leading-relaxed max-w-[32ch]">
-                  {step.desc}
+                {/* Number */}
+                <p
+                  className="mb-4 font-medium uppercase text-brand-accent"
+                  style={{ fontSize: 11, letterSpacing: "0.2em" }}
+                >
+                  {step.num}
                 </p>
 
-                {i < STEPS.length - 1 && (
-                  <span
-                    aria-hidden
-                    className="hidden md:flex absolute top-1/2 -right-[22px] -translate-y-1/2 z-10 h-9 w-9 items-center justify-center rounded-full border border-brand-accent/40 bg-bg-primary text-brand-accent"
-                  >
-                    <ArrowRight className="h-4 w-4" />
-                  </span>
-                )}
+                {/* Icon — muted green, thin stroke, 24 px */}
+                <step.Icon
+                  size={24}
+                  strokeWidth={1.5}
+                  color="#15621B"
+                  aria-hidden
+                  className="mb-6"
+                />
+
+                {/* Title */}
+                <h3
+                  className="mb-3 font-medium text-white leading-snug"
+                  style={{ fontSize: 22 }}
+                >
+                  {step.title}
+                </h3>
+
+                {/* Body */}
+                <p
+                  className="text-base"
+                  style={{
+                    color: "rgba(255,255,255,0.5)",
+                    lineHeight: 1.65,
+                    maxWidth: 240,
+                  }}
+                >
+                  {step.body}
+                </p>
               </motion.div>
-            ))}
-          </div>
+
+              {/* Vertical divider — desktop only, between steps */}
+              {i < STEPS.length - 1 && (
+                <motion.div
+                  aria-hidden
+                  initial={{ opacity: 0, scaleY: 0 }}
+                  whileInView={{ opacity: 1, scaleY: 1 }}
+                  viewport={VIEWPORT}
+                  transition={{
+                    duration: 0.5,
+                    delay: i * 0.13 + 0.35,
+                    ease: EASE,
+                  }}
+                  className="hidden md:block mx-10 lg:mx-14 shrink-0 self-center origin-top"
+                  style={{
+                    width: 1,
+                    height: 80,
+                    background: "rgba(21,98,27,0.25)",
+                  }}
+                />
+              )}
+
+              {/* Horizontal divider — mobile only, between steps */}
+              {i < STEPS.length - 1 && (
+                <div
+                  aria-hidden
+                  className="block md:hidden mb-10"
+                  style={{
+                    height: 1,
+                    background: "rgba(21,98,27,0.25)",
+                  }}
+                />
+              )}
+            </Fragment>
+          ))}
         </div>
 
-        <DemoWidget />
+        {/* ── Horizontal rule ───────────────────────────────────── */}
+        <motion.div
+          initial={{ scaleX: 0, opacity: 0 }}
+          whileInView={{ scaleX: 1, opacity: 1 }}
+          viewport={VIEWPORT}
+          transition={{ duration: 0.7, delay: 0.2, ease: EASE }}
+          className="mt-[60px] origin-left"
+          style={{ height: 1, background: "rgba(21,98,27,0.2)" }}
+        />
+
+        {/* ── CTA row ───────────────────────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={VIEWPORT}
+          transition={{ duration: 0.6, delay: 0.3, ease: EASE }}
+          className="mt-[60px] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6"
+        >
+          <p
+            className="text-base"
+            style={{ color: "rgba(255,255,255,0.5)", lineHeight: 1.65 }}
+          >
+            We handle the full setup. You&apos;re live in 48 hours.
+          </p>
+
+          <motion.a
+            whileHover={{ scale: 1.03, boxShadow: "0 0 28px rgba(0,198,15,0.45)" }}
+            whileTap={{ scale: 0.97 }}
+            href="#discovery-call"
+            className="shrink-0 font-bold text-[15px]"
+            style={{
+              background: "#00C60F",
+              color: "#010801",
+              padding: "14px 28px",
+              borderRadius: 100,
+              display: "inline-block",
+              lineHeight: 1,
+            }}
+          >
+            Book Your Discovery Call →
+          </motion.a>
+        </motion.div>
+
       </div>
-    </motion.section>
+
+      {/* Relief person image strip */}
+      <div className="mx-auto max-w-[1200px] px-6 md:px-10 mt-20">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="relative overflow-hidden rounded-2xl"
+          style={{ height: 320 }}
+        >
+          <img
+            src="/relief-person.png"
+            alt="Business owner relaxing, checking phone"
+            className="absolute inset-0 w-full h-full object-cover object-top"
+          />
+          <div
+            className="absolute inset-0"
+            style={{ background: "linear-gradient(90deg, rgba(5,10,6,0.0) 40%, rgba(5,10,6,0.7) 100%)" }}
+          />
+          <div className="absolute bottom-6 right-8 text-right">
+            <p className="text-white font-medium" style={{ fontSize: 15 }}>
+              Your team focuses on conversations that close.
+            </p>
+            <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", marginTop: 4 }}>
+              Bokle handles everything before that point.
+            </p>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Demo widget (retained from previous build) */}
+      <DemoWidget />
+    </section>
   );
 }

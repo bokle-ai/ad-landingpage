@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { DM_Sans, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 
@@ -16,6 +16,12 @@ const instrumentSerif = Instrument_Serif({
   variable: "--font-instrument-serif",
   display: "swap",
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
 
 export const metadata: Metadata = {
   title: "Bokle AI — AI Agents for Businesses That Never Miss a Lead",

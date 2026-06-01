@@ -5,6 +5,7 @@ import Ticker from "@/components/Ticker";
 import Problem from "@/components/Problem";
 import HowItWorks from "@/components/HowItWorks";
 import Channels from "@/components/Channels";
+import CompetitorRace from "@/components/CompetitorRace";
 import WhyBokle from "@/components/WhyBokle";
 import Process from "@/components/Process";
 import Testimonials from "@/components/Testimonials";
@@ -41,6 +42,7 @@ export default function Page() {
       <HowItWorks />
       <Channels />
       <Ticker items={TICKER_B} direction="right" duration={36} />
+      <CompetitorRace />
       <WhyBokle />
       <Process />
       <Testimonials />

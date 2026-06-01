@@ -45,7 +45,7 @@ export default function PreFormCTA() {
 
         <Headline
           as="h2"
-          className="text-[13vw] md:text-[9vw] lg:text-[6.8vw] font-bold leading-[0.92] tracking-[-0.035em] text-white"
+          className="text-[clamp(1.8rem,8vw,5.5rem)] font-bold leading-[0.92] tracking-[-0.035em] text-white"
           lines={[
             { text: "Stop losing leads" },
             { text: "you never knew you had.", italic: true, className: "!text-brand-accent" },

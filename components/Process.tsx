@@ -57,7 +57,7 @@ export default function Process() {
             <div className="lg:sticky lg:top-32">
               <Headline
                 as="h2"
-                className="text-[12vw] md:text-[8vw] lg:text-[5.6vw] font-bold leading-[0.92] tracking-[-0.035em] text-white"
+                className="text-[clamp(1.8rem,8vw,5rem)] font-bold leading-[0.92] tracking-[-0.035em] text-white"
                 lines={[
                   { text: "From consultation" },
                   { text: "to live in 48 hours.", italic: true, className: "!text-brand-accent" },

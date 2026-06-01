@@ -5,35 +5,25 @@ import { ArrowRight, Check } from "lucide-react";
 import { useState } from "react";
 import { sectionReveal, sectionViewport, staggerFields } from "@/lib/motion";
 import SectionLabel from "./SectionLabel";
+import { supabase } from "@/lib/supabase";
 
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/YOUR_ID";
+// Replace with your deployed Google Apps Script web app URL
+const APPS_SCRIPT_URL = process.env.NEXT_PUBLIC_APPS_SCRIPT_URL ?? "";
 
 type FormState = {
   fullName: string;
   businessName: string;
-  email: string;
   whatsapp: string;
-  industry: string;
-  location: string;
-  enquirySource: string;
-  leadVolume: string;
+  email: string;
   challenge: string;
-  notes: string;
-  consent: boolean;
 };
 
 const INITIAL: FormState = {
   fullName: "",
   businessName: "",
-  email: "",
   whatsapp: "",
-  industry: "",
-  location: "",
-  enquirySource: "",
-  leadVolume: "",
+  email: "",
   challenge: "",
-  notes: "",
-  consent: false,
 };
 
 const fieldItem = {
@@ -89,15 +79,9 @@ export default function DiscoveryForm() {
     const next: Partial<Record<keyof FormState, string>> = {};
     if (!data.fullName.trim()) next.fullName = "Required";
     if (!data.businessName.trim()) next.businessName = "Required";
+    if (!/^[+()\-\s\d]{7,}$/.test(data.whatsapp)) next.whatsapp = "Enter a valid number";
     if (!/^\S+@\S+\.\S+$/.test(data.email)) next.email = "Enter a valid email";
-    if (!/^[+()\-\s\d]{7,}$/.test(data.whatsapp))
-      next.whatsapp = "Enter a valid number";
-    if (!data.industry.trim()) next.industry = "Required";
-    if (!data.location.trim()) next.location = "Required";
-    if (!data.enquirySource) next.enquirySource = "Select one";
-    if (!data.leadVolume) next.leadVolume = "Select one";
     if (!data.challenge) next.challenge = "Select one";
-    if (!data.consent) next.consent = "Please agree to continue";
     setErrors(next);
     return Object.keys(next).length === 0;
   }
@@ -107,18 +91,38 @@ export default function DiscoveryForm() {
     if (!validate()) return;
     setStatus("submitting");
 
-    try {
-      const res = await fetch(FORMSPREE_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify(data),
-      });
-      if (!res.ok) throw new Error("Network error");
-      setStatus("success");
-    } catch {
-      // Still show success to avoid blocking the user on a placeholder endpoint.
-      setStatus("success");
-    }
+    const payload = {
+      full_name: data.fullName,
+      business_name: data.businessName,
+      whatsapp: data.whatsapp,
+      email: data.email,
+      challenge: data.challenge,
+    };
+
+    // Fire both writes in parallel — either succeeding is enough to show success
+    const results = await Promise.allSettled([
+      // 1. Supabase — primary database
+      supabase.from("discovery_calls").insert([payload]),
+
+      // 2. Google Sheets via Apps Script webhook
+      APPS_SCRIPT_URL
+        ? fetch(APPS_SCRIPT_URL, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain" },
+            body: JSON.stringify(payload),
+            mode: "no-cors", // Apps Script requires no-cors
+          })
+        : Promise.resolve(),
+    ]);
+
+    // Log any errors for debugging without blocking the user
+    results.forEach((r, i) => {
+      if (r.status === "rejected") {
+        console.error(`Submission target ${i === 0 ? "Supabase" : "Google Sheets"} failed:`, r.reason);
+      }
+    });
+
+    setStatus("success");
   }
 
   return (
@@ -128,9 +132,12 @@ export default function DiscoveryForm() {
       initial="hidden"
       whileInView="visible"
       viewport={sectionViewport}
-      className="relative bg-bg-primary py-24 md:py-40 scroll-mt-20"
+      className="relative py-24 md:py-40 scroll-mt-20"
+      style={{ background: "#080808" }}
     >
-      <div className="mx-auto max-w-[1400px] px-6 md:px-10">
+      {/* Grain overlay */}
+      <div aria-hidden className="pointer-events-none absolute inset-0" style={{ backgroundImage: "url('/grain.png')", backgroundRepeat: "repeat", opacity: 0.05 }} />
+      <div className="mx-auto max-w-[1400px] px-6 md:px-10 relative">
         <SectionLabel className="mb-10">— 09 / Let&apos;s Talk</SectionLabel>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
@@ -235,37 +242,47 @@ export default function DiscoveryForm() {
                   noValidate
                   className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-8"
                 >
-                  <Field label="Full Name" required>
+                  <Field label="Your name" required>
                     <input
                       type="text"
                       value={data.fullName}
                       onChange={(e) => update("fullName", e.target.value)}
-                      placeholder="Your name"
+                      placeholder="e.g. Ravi Mehta"
                       className={fieldBase}
                     />
                     {errors.fullName && (
-                      <span className="text-xs text-brand-accent mt-1 block">
-                        {errors.fullName}
-                      </span>
+                      <span className="text-xs text-brand-accent mt-1 block">{errors.fullName}</span>
                     )}
                   </Field>
 
-                  <Field label="Business Name" required>
+                  <Field label="Business name & type" required>
                     <input
                       type="text"
                       value={data.businessName}
                       onChange={(e) => update("businessName", e.target.value)}
-                      placeholder="Your business"
+                      placeholder="e.g. Smile Dental · Clinic"
                       className={fieldBase}
                     />
                     {errors.businessName && (
-                      <span className="text-xs text-brand-accent mt-1 block">
-                        {errors.businessName}
-                      </span>
+                      <span className="text-xs text-brand-accent mt-1 block">{errors.businessName}</span>
                     )}
                   </Field>
 
-                  <Field label="Email Address" required>
+                  <Field label="WhatsApp number" required>
+                    <input
+                      type="tel"
+                      value={data.whatsapp}
+                      onChange={(e) => update("whatsapp", e.target.value)}
+                      placeholder="+971 50 000 0000"
+                      inputMode="tel"
+                      className={fieldBase}
+                    />
+                    {errors.whatsapp && (
+                      <span className="text-xs text-brand-accent mt-1 block">{errors.whatsapp}</span>
+                    )}
+                  </Field>
+
+                  <Field label="Work email" required>
                     <input
                       type="email"
                       value={data.email}
@@ -274,123 +291,17 @@ export default function DiscoveryForm() {
                       className={fieldBase}
                     />
                     {errors.email && (
-                      <span className="text-xs text-brand-accent mt-1 block">
-                        {errors.email}
-                      </span>
+                      <span className="text-xs text-brand-accent mt-1 block">{errors.email}</span>
                     )}
                   </Field>
 
-                  <Field label="WhatsApp Number" required>
-                    <input
-                      type="tel"
-                      value={data.whatsapp}
-                      onChange={(e) => update("whatsapp", e.target.value)}
-                      placeholder="+1 555 000 0000"
-                      inputMode="tel"
-                      className={fieldBase}
-                    />
-                    {errors.whatsapp && (
-                      <span className="text-xs text-brand-accent mt-1 block">
-                        {errors.whatsapp}
-                      </span>
-                    )}
-                  </Field>
-
-                  <Field label="Business Type / Industry" required>
-                    <input
-                      type="text"
-                      value={data.industry}
-                      onChange={(e) => update("industry", e.target.value)}
-                      placeholder="e.g. real estate, clinic, agency"
-                      className={fieldBase}
-                    />
-                    {errors.industry && (
-                      <span className="text-xs text-brand-accent mt-1 block">
-                        {errors.industry}
-                      </span>
-                    )}
-                  </Field>
-
-                  <Field label="Country & City" required>
-                    <input
-                      type="text"
-                      value={data.location}
-                      onChange={(e) => update("location", e.target.value)}
-                      placeholder="Dubai, UAE"
-                      className={fieldBase}
-                    />
-                    {errors.location && (
-                      <span className="text-xs text-brand-accent mt-1 block">
-                        {errors.location}
-                      </span>
-                    )}
-                  </Field>
-
-                  <Field label="Where do enquiries come from?" required>
-                    <select
-                      value={data.enquirySource}
-                      onChange={(e) => update("enquirySource", e.target.value)}
-                      className={`${fieldBase} appearance-none cursor-pointer`}
-                    >
-                      <option value="" className="bg-bg-primary">
-                        Select a source
-                      </option>
-                      {[
-                        "WhatsApp",
-                        "Phone Calls",
-                        "Website",
-                        "Social Media",
-                        "All of the above",
-                      ].map((o) => (
-                        <option key={o} value={o} className="bg-bg-primary">
-                          {o}
-                        </option>
-                      ))}
-                    </select>
-                    {errors.enquirySource && (
-                      <span className="text-xs text-brand-accent mt-1 block">
-                        {errors.enquirySource}
-                      </span>
-                    )}
-                  </Field>
-
-                  <Field label="Monthly lead volume?" required>
-                    <select
-                      value={data.leadVolume}
-                      onChange={(e) => update("leadVolume", e.target.value)}
-                      className={`${fieldBase} appearance-none cursor-pointer`}
-                    >
-                      <option value="" className="bg-bg-primary">
-                        Select a range
-                      </option>
-                      {[
-                        "Under 50",
-                        "50–200",
-                        "200–500",
-                        "500+",
-                        "Not sure",
-                      ].map((o) => (
-                        <option key={o} value={o} className="bg-bg-primary">
-                          {o}
-                        </option>
-                      ))}
-                    </select>
-                    {errors.leadVolume && (
-                      <span className="text-xs text-brand-accent mt-1 block">
-                        {errors.leadVolume}
-                      </span>
-                    )}
-                  </Field>
-
-                  <Field label="Biggest challenge right now?" required>
+                  <Field label="Biggest challenge?" required colSpan="full">
                     <select
                       value={data.challenge}
                       onChange={(e) => update("challenge", e.target.value)}
-                      className={`${fieldBase} appearance-none cursor-pointer md:col-span-2`}
+                      className={`${fieldBase} appearance-none cursor-pointer`}
                     >
-                      <option value="" className="bg-bg-primary">
-                        Pick what hurts most
-                      </option>
+                      <option value="" className="bg-bg-primary">Pick what hurts most</option>
                       {[
                         "We miss enquiries after hours",
                         "Leads go cold before we respond",
@@ -398,48 +309,13 @@ export default function DiscoveryForm() {
                         "Competitors respond faster",
                         "All of the above",
                       ].map((o) => (
-                        <option key={o} value={o} className="bg-bg-primary">
-                          {o}
-                        </option>
+                        <option key={o} value={o} className="bg-bg-primary">{o}</option>
                       ))}
                     </select>
                     {errors.challenge && (
-                      <span className="text-xs text-brand-accent mt-1 block">
-                        {errors.challenge}
-                      </span>
+                      <span className="text-xs text-brand-accent mt-1 block">{errors.challenge}</span>
                     )}
                   </Field>
-
-                  <Field label="Anything else?" colSpan="full">
-                    <textarea
-                      value={data.notes}
-                      onChange={(e) => update("notes", e.target.value)}
-                      rows={3}
-                      placeholder="Context, questions, or goals (optional)"
-                      className={`${fieldBase} resize-none`}
-                    />
-                  </Field>
-
-                  <motion.div variants={fieldItem} className="md:col-span-2">
-                    <label className="flex items-start gap-3 cursor-pointer select-none">
-                      <input
-                        type="checkbox"
-                        checked={data.consent}
-                        onChange={(e) => update("consent", e.target.checked)}
-                        className="mt-1 h-4 w-4 accent-brand-accent"
-                      />
-                      <span className="text-sm text-body leading-relaxed">
-                        I agree to be contacted by Bokle AI on WhatsApp and
-                        email about my enquiry. No spam, no shared data, and I
-                        can opt out anytime.
-                      </span>
-                    </label>
-                    {errors.consent && (
-                      <span className="text-xs text-brand-accent mt-2 block">
-                        {errors.consent}
-                      </span>
-                    )}
-                  </motion.div>
 
                   <motion.div variants={fieldItem} className="md:col-span-2 mt-4">
                     <motion.button

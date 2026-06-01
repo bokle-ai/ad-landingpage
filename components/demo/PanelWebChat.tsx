@@ -1,26 +1,25 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { MessageSquare, Minus, X } from "lucide-react";
+import { Minus, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import TypingDots from "./TypingDots";
 
 type Msg = { who: "lead" | "ai"; text: string; typing?: boolean };
 
 const SCRIPT: Msg[] = [
-  { who: "lead", text: "Do you offer services in Dubai?" },
+  { who: "ai", text: "Hi! Looking into AI automation for your business?" },
+  { who: "lead", text: "Yes — we're a real estate agency in Dubai. Leads contact us through the site but no one replies fast enough." },
   { who: "ai", typing: true, text: "" },
   {
     who: "ai",
-    text:
-      "Absolutely! We work with businesses across Dubai and the UAE. What type of business are you running?",
+    text: "That's a common gap. We build website chat agents that respond in seconds and qualify buyers vs. investors automatically. What's your main challenge — response speed or follow-up?",
   },
-  { who: "lead", text: "A real estate agency" },
+  { who: "lead", text: "Both, honestly." },
   { who: "ai", typing: true, text: "" },
   {
     who: "ai",
-    text:
-      "Perfect. We have specific solutions for real estate. Can I grab your WhatsApp to share more details?",
+    text: "Got it. We can cover both channels — web + WhatsApp — under one setup. Want me to arrange a quick demo call?",
   },
 ];
 
@@ -28,7 +27,7 @@ export default function PanelWebChat() {
   const [visible, setVisible] = useState(1);
 
   useEffect(() => {
-    const delays = [0, 700, 1800, 3000, 3900, 5000];
+    const delays = [0, 600, 1600, 2500, 3800, 4700, 5900];
     const timers = delays.map((d, i) =>
       setTimeout(() => setVisible(Math.max(i + 1, 1)), d)
     );
@@ -37,21 +36,51 @@ export default function PanelWebChat() {
 
   return (
     <div className="flex justify-center">
-      <div className="w-full max-w-[380px] rounded-2xl bg-bg-primary border border-brand-accent/30 shadow-2xl shadow-brand-accent/10 overflow-hidden">
+      <div
+        className="w-full max-w-[400px] rounded-2xl overflow-hidden"
+        style={{
+          background: "#0a140b",
+          border: "1px solid rgba(0,198,15,0.22)",
+          boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
+        }}
+      >
         {/* Widget header */}
-        <div className="flex items-center justify-between bg-bg-alt px-4 py-3 border-b border-white/5">
-          <div className="flex items-center gap-2">
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-accent text-bg-primary">
-              <MessageSquare className="h-3.5 w-3.5" />
-            </span>
+        <div
+          className="flex items-center justify-between px-4 py-3"
+          style={{
+            background: "#0d1e0e",
+            borderBottom: "1px solid rgba(255,255,255,0.06)",
+          }}
+        >
+          <div className="flex items-center gap-2.5">
+            {/* Avatar — letter initial */}
+            <div
+              style={{
+                width: 32,
+                height: 32,
+                borderRadius: "50%",
+                background: "#15621B",
+                border: "1.5px solid rgba(0,198,15,0.4)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0,
+              }}
+            >
+              <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.88)" }}>B</span>
+            </div>
             <div>
               <p className="text-sm text-white font-medium leading-tight">
                 Bokle AI
               </p>
-              <p className="text-[10px] text-brand-accent flex items-center gap-1 mt-0.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-brand-accent" />
-                Online now
-              </p>
+              <div className="flex items-center gap-1.5 mt-0.5">
+                <motion.span
+                  animate={{ opacity: [1, 0.3, 1] }}
+                  transition={{ duration: 1.4, repeat: Infinity }}
+                  className="h-1.5 w-1.5 rounded-full bg-brand-accent"
+                />
+                <span className="text-[10px] text-brand-accent">Online now</span>
+              </div>
             </div>
           </div>
           <div className="flex items-center gap-1 text-body">
@@ -61,36 +90,97 @@ export default function PanelWebChat() {
         </div>
 
         {/* Messages */}
-        <div className="p-4 flex flex-col gap-2 min-h-[300px] bg-bg-primary">
+        <div
+          className="flex flex-col gap-2.5 p-4"
+          style={{ minHeight: 280, background: "#0a140b" }}
+        >
           <AnimatePresence>
             {SCRIPT.slice(0, visible).map((m, i) => {
               if (m.typing) {
                 return (
                   <motion.div
-                    key={`t-${i}`}
+                    key={`typing-${i}`}
                     initial={{ opacity: 0, y: 6 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
-                    className="self-start rounded-2xl rounded-tl-sm bg-white/5 border border-white/10 px-3 py-2.5"
+                    className="self-start"
                   >
-                    <TypingDots color="#F5F0E8" />
+                    <div
+                      className="flex items-center gap-2"
+                    >
+                      <div
+                        style={{
+                          width: 22,
+                          height: 22,
+                          borderRadius: "50%",
+                          background: "#15621B",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexShrink: 0,
+                        }}
+                      >
+                        <span style={{ fontSize: 8, fontWeight: 700, color: "rgba(255,255,255,0.85)" }}>B</span>
+                      </div>
+                      <div
+                        className="rounded-2xl rounded-tl-sm px-3 py-2.5"
+                        style={{
+                          background: "rgba(255,255,255,0.06)",
+                          border: "1px solid rgba(255,255,255,0.09)",
+                        }}
+                      >
+                        <TypingDots color="rgba(255,255,255,0.45)" />
+                      </div>
+                    </div>
                   </motion.div>
                 );
               }
+
               const isLead = m.who === "lead";
               return (
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.35 }}
-                  className={`max-w-[85%] rounded-2xl px-3 py-2 border ${
-                    isLead
-                      ? "self-end rounded-tr-sm bg-brand-accent/15 border-brand-accent/40"
-                      : "self-start rounded-tl-sm bg-white/5 border-white/10"
-                  }`}
+                  transition={{ duration: 0.32 }}
+                  className={`flex gap-2 items-end ${isLead ? "flex-row-reverse self-end" : "self-start"} max-w-[88%]`}
                 >
-                  <p className="text-[13px] text-cream leading-snug">{m.text}</p>
+                  {!isLead && (
+                    <div
+                      style={{
+                        width: 22,
+                        height: 22,
+                        borderRadius: "50%",
+                        background: "#15621B",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexShrink: 0,
+                      }}
+                    >
+                      <span style={{ fontSize: 8, fontWeight: 700, color: "rgba(255,255,255,0.85)" }}>B</span>
+                    </div>
+                  )}
+                  <div
+                    className="rounded-2xl px-3 py-2"
+                    style={
+                      isLead
+                        ? {
+                            background: "rgba(0,198,15,0.12)",
+                            border: "1px solid rgba(0,198,15,0.3)",
+                            borderBottomRightRadius: 4,
+                          }
+                        : {
+                            background: "rgba(255,255,255,0.06)",
+                            border: "1px solid rgba(255,255,255,0.09)",
+                            borderBottomLeftRadius: 4,
+                          }
+                    }
+                  >
+                    <p className="text-[13px] leading-snug" style={{ color: "rgba(255,255,255,0.85)" }}>
+                      {m.text}
+                    </p>
+                  </div>
                 </motion.div>
               );
             })}
@@ -98,15 +188,29 @@ export default function PanelWebChat() {
         </div>
 
         {/* Input bar */}
-        <div className="border-t border-white/5 bg-bg-alt px-4 py-3 flex items-center justify-between">
+        <div
+          className="flex items-center justify-between px-4 py-3"
+          style={{
+            borderTop: "1px solid rgba(255,255,255,0.06)",
+            background: "#0d1e0e",
+          }}
+        >
           <span className="text-xs text-body">Type a message…</span>
           <motion.span
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.4, delay: 5.5, type: "spring", damping: 14 }}
-            className="inline-flex items-center gap-2 rounded-full bg-brand-accent text-bg-primary px-3 py-1 text-[10px] font-bold tracking-[0.2em] uppercase"
+            transition={{ duration: 0.4, delay: 6.5, type: "spring", damping: 14 }}
+            className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[10px] font-bold tracking-[0.18em] uppercase"
+            style={{
+              background: "rgba(0,198,15,0.15)",
+              border: "1px solid rgba(0,198,15,0.35)",
+              color: "#00C60F",
+            }}
           >
-            Lead Captured ✓
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            Lead Captured
           </motion.span>
         </div>
       </div>
