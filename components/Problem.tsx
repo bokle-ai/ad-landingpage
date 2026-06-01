@@ -34,7 +34,7 @@ export default function Problem() {
       initial="hidden"
       whileInView="visible"
       viewport={sectionViewport}
-      className="grain-overlay relative bg-bg-alt py-24 md:py-40"
+      className="grain-overlay relative overflow-hidden bg-bg-alt py-24 md:py-40"
     >
       <div className="mx-auto max-w-[1400px] px-6 md:px-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
@@ -97,7 +97,7 @@ export default function Problem() {
               }}
             >
               <Image
-                src="/pain-desk.png"
+                src="/pain-desk.jpg"
                 alt="Leads piling up after hours"
                 fill
                 style={{ objectFit: "cover", objectPosition: "center top" }}

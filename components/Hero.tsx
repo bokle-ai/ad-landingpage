@@ -60,7 +60,7 @@ export default function Hero() {
       {/* Hero background photo */}
       <div aria-hidden className="absolute inset-0 z-0 overflow-hidden">
         <Image
-          src="/hero-bg.png"
+          src="/hero-bg.jpg"
           alt=""
           fill
           priority
@@ -87,7 +87,7 @@ export default function Hero() {
         className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(0,198,15,0.16),transparent_28%),radial-gradient(circle_at_82%_26%,rgba(245,240,232,0.08),transparent_22%),radial-gradient(circle_at_72%_72%,rgba(0,198,15,0.12),transparent_28%)]"
       />
 
-      <div className="relative mx-auto max-w-[1400px] px-6 md:px-10">
+      <div className="relative z-10 mx-auto max-w-[1400px] px-6 md:px-10">
         <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
 
           {/* ── Left column ── */}
@@ -97,8 +97,6 @@ export default function Hero() {
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="lg:col-span-7"
           >
-            <span className="label-tag">Meta Ad Funnel Landing Page</span>
-
             <Headline
               as="h1"
               className="mt-7 max-w-5xl text-[clamp(2.8rem,8vw,6.8rem)] font-bold leading-[0.92] tracking-[-0.05em] text-white"

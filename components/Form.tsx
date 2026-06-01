@@ -132,7 +132,7 @@ export default function DiscoveryForm() {
       initial="hidden"
       whileInView="visible"
       viewport={sectionViewport}
-      className="grain-overlay relative py-24 md:py-40 scroll-mt-20"
+      className="grain-overlay relative overflow-hidden py-24 md:py-40 scroll-mt-20"
       style={{ background: "#080808" }}
     >
       <div className="mx-auto max-w-[1400px] px-6 md:px-10">

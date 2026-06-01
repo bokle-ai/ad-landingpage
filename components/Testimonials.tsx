@@ -10,7 +10,7 @@ import SectionLabel from "./SectionLabel";
 const CARDS = [
   {
     flag: "🇮🇳",
-    photo: "/testimonial-ravi.png",
+    photo: "/testimonial-ravi.jpg",
     name: "Ravi M.",
     role: "Dental Chain Owner · Chennai, India",
     quote:
@@ -19,7 +19,7 @@ const CARDS = [
   },
   {
     flag: "🇦🇪",
-    photo: "/testimonial-aisha.png",
+    photo: "/testimonial-aisha.jpg",
     name: "Aisha K.",
     role: "Practice Manager, Aesthetic Clinic · Dubai, UAE",
     quote:
@@ -28,7 +28,7 @@ const CARDS = [
   },
   {
     flag: "🇺🇸",
-    photo: "/testimonial-james.png",
+    photo: "/testimonial-james.jpg",
     name: "James P.",
     role: "Real Estate Brokerage Owner · New York, USA",
     quote:

@@ -37,7 +37,7 @@ export default function HowItWorks() {
   return (
     <section
       id="how"
-      className="relative bg-bg-primary"
+      className="grain-overlay relative bg-bg-primary"
       style={{ paddingTop: 120, paddingBottom: 120 }}
     >
       <div className="mx-auto max-w-[1200px] px-6 md:px-10">
@@ -220,7 +220,7 @@ export default function HowItWorks() {
           style={{ border: "1px solid rgba(21,98,27,0.2)" }}
         >
           <Image
-            src="/relief-person.png"
+            src="/relief-person.jpg"
             alt="Business owner with Bokle AI running"
             fill
             style={{ objectFit: "cover", objectPosition: "center 20%" }}
