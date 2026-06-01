@@ -41,18 +41,6 @@ export default function HowItWorks() {
     >
       <div className="mx-auto max-w-[1200px] px-6 md:px-10">
 
-        {/* ── Section label ─────────────────────────────────────── */}
-        <motion.p
-          initial={{ opacity: 0, x: -14 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={VIEWPORT}
-          transition={{ duration: 0.4, ease: EASE }}
-          className="mb-5 font-medium uppercase text-brand-accent"
-          style={{ fontSize: 11, letterSpacing: "0.15em" }}
-        >
-          — 03 / HOW IT WORKS
-        </motion.p>
-
         {/* ── Headline ──────────────────────────────────────────── */}
         <motion.h2
           initial={{ opacity: 0, y: 22 }}

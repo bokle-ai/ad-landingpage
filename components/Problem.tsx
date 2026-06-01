@@ -5,7 +5,6 @@ import { sectionReveal, sectionViewport, staggerRows, rowItem } from "@/lib/moti
 import Image from "next/image";
 import Headline from "./Headline";
 import CountUp from "./CountUp";
-import SectionLabel from "./SectionLabel";
 
 const STATS = [
   {
@@ -41,8 +40,6 @@ export default function Problem() {
 
           {/* Left: headline + stats */}
           <div>
-            <SectionLabel className="mb-8">— 02 / The Problem</SectionLabel>
-
             <Headline
               as="h2"
               className="text-[clamp(1.8rem,5vw,4.5rem)] font-bold leading-[0.92] tracking-[-0.035em] text-white max-w-[14ch]"

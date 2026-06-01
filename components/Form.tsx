@@ -4,7 +4,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Check } from "lucide-react";
 import { useState } from "react";
 import { sectionReveal, sectionViewport, staggerFields } from "@/lib/motion";
-import SectionLabel from "./SectionLabel";
 import { supabase } from "@/lib/supabase";
 
 // Replace with your deployed Google Apps Script web app URL
@@ -136,8 +135,6 @@ export default function DiscoveryForm() {
       style={{ background: "#080808" }}
     >
       <div className="mx-auto max-w-[1400px] px-6 md:px-10">
-        <SectionLabel className="mb-10">— 09 / Let&apos;s Talk</SectionLabel>
-
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
           <motion.div
             initial={{ opacity: 0, x: -40 }}

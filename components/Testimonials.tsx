@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { sectionReveal, sectionViewport } from "@/lib/motion";
 import ResultsTicker from "./testimonials/ResultsTicker";
-import SectionLabel from "./SectionLabel";
 
 /* ── Card data ─────────────────────────────────────────────────── */
 const CARDS = [
@@ -52,8 +51,6 @@ export default function Testimonials() {
 
       {/* Testimonial cards */}
       <div className="mx-auto max-w-[1400px] px-6 md:px-10 py-24 md:py-32">
-        <SectionLabel className="mb-16">— WHAT CLIENTS SAY</SectionLabel>
-
         <div className="flex flex-col md:flex-row gap-6">
           {CARDS.map((card, i) => (
             <motion.div
