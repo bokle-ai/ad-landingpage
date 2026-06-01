@@ -154,7 +154,7 @@ export default function HowItWorks() {
         {/* ── Relief person image strip ─────────────────────────── */}
         <div style={{
           position: 'relative',
-          height: '190px',
+          height: '320px',
           borderRadius: '12px',
           overflow: 'hidden',
           margin: '56px 0',
@@ -164,23 +164,24 @@ export default function HowItWorks() {
             src="/relief-person.jpg"
             alt=""
             fill
-            style={{ objectFit: 'cover', objectPosition: 'center 20%' }}
+            style={{ objectFit: 'cover', objectPosition: 'center 30%' }}
           />
+          {/* Light bottom fade only — let the photo breathe */}
           <div style={{
             position: 'absolute', inset: 0,
-            background: 'linear-gradient(to right, rgba(5,10,6,0.65) 0%, rgba(5,10,6,0.2) 50%, rgba(5,10,6,0.65) 100%)'
+            background: 'linear-gradient(to top, rgba(5,10,6,0.7) 0%, transparent 50%)'
           }} />
           <div style={{
-            position: 'absolute', inset: 0,
+            position: 'absolute', bottom: '28px', left: 0, right: 0,
             display: 'flex', alignItems: 'center', justifyContent: 'center'
           }}>
             <p style={{
               fontFamily: 'Instrument Serif, serif',
               fontStyle: 'italic',
-              fontSize: '18px',
-              color: 'rgba(255,255,255,0.8)',
+              fontSize: '20px',
+              color: 'rgba(255,255,255,0.9)',
               textAlign: 'center',
-              maxWidth: '500px',
+              maxWidth: '520px',
               padding: '0 24px'
             }}>
               This is what your business looks like with Bokle running.
