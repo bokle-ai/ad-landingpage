@@ -13,9 +13,7 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from "react";
 import { ArrowRight, ArrowUpRight, PhoneOff } from "lucide-react";
-import Image from "next/image";
 import Headline from "./Headline";
-import SparkleGlyphs from "./SparkleGlyphs";
 
 /* ── Types ── */
 const STATES = ["whatsapp", "voice", "webchat"] as const;
@@ -27,25 +25,6 @@ const STATE_LABELS: Record<PhoneState, string> = {
   webchat: "Web Chat",
 };
 
-/* ── Pre-computed waveform bars (avoids hydration mismatch) ── */
-const VOICE_BARS = [
-  { height: 14, dur: 0.82 },
-  { height: 22, dur: 1.05 },
-  { height: 32, dur: 0.73 },
-  { height: 24, dur: 1.28 },
-  { height: 38, dur: 0.91 },
-  { height: 28, dur: 0.64 },
-  { height: 18, dur: 1.02 },
-  { height: 34, dur: 0.77 },
-  { height: 26, dur: 1.19 },
-  { height: 40, dur: 0.68 },
-  { height: 20, dur: 0.94 },
-  { height: 30, dur: 1.11 },
-  { height: 16, dur: 0.83 },
-  { height: 36, dur: 0.61 },
-  { height: 24, dur: 0.99 },
-];
-
 /* ================================================================ */
 /*  Hero                                                             */
 /* ================================================================ */
@@ -53,38 +32,16 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="grain-overlay relative overflow-hidden bg-bg-primary pb-20 pt-36 md:pb-24 md:pt-40"
+      className="relative overflow-hidden bg-bg-primary pb-20 pt-36 md:pb-24 md:pt-40"
     >
-      <SparkleGlyphs count={14} />
-
-      {/* Hero background photo */}
-      <div aria-hidden className="absolute inset-0 z-0 overflow-hidden">
-        <Image
-          src="/hero-bg.jpg"
-          alt=""
-          fill
-          priority
-          style={{ objectFit: "cover", objectPosition: "center" }}
-        />
-        {/* Directional gradient overlay */}
-        <div
-          className="absolute inset-0 hidden md:block"
-          style={{
-            background:
-              "linear-gradient(to right, rgba(5,10,6,0.97) 0%, rgba(5,10,6,0.90) 40%, rgba(5,10,6,0.65) 70%, rgba(5,10,6,0.45) 100%)",
-          }}
-        />
-        {/* Mobile: solid overlay */}
-        <div
-          className="absolute inset-0 md:hidden"
-          style={{ background: "rgba(5,10,6,0.93)" }}
-        />
-      </div>
-
-      {/* Background radial wash */}
+      {/* Single soft wash — no neon, no sparkles */}
       <div
         aria-hidden
-        className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(0,198,15,0.16),transparent_28%),radial-gradient(circle_at_82%_26%,rgba(245,240,232,0.08),transparent_22%),radial-gradient(circle_at_72%_72%,rgba(0,198,15,0.12),transparent_28%)]"
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(120% 90% at 78% 18%, rgba(0,198,15,0.06), transparent 60%)",
+        }}
       />
 
       <div className="relative z-10 mx-auto max-w-[1400px] px-6 md:px-10">
@@ -215,7 +172,7 @@ function PhoneMockup() {
             }}
             className={`rounded-full px-3 py-1.5 text-[11px] font-medium transition-all duration-300 ${
               s === activeState
-                ? "bg-brand-accent text-bg-primary shadow-[0_0_14px_rgba(0,198,15,0.5)]"
+                ? "bg-brand-accent text-bg-primary"
                 : "border border-white/15 text-body hover:border-brand-accent/40 hover:text-white"
             }`}
           >
@@ -231,14 +188,14 @@ function PhoneMockup() {
         className="relative w-full"
         style={{ perspective: 1400 }}
       >
-        {/* Ambient glow */}
+        {/* Ambient glow — subtle */}
         <div
           aria-hidden
           className="pointer-events-none absolute left-1/2 top-1/3 -z-10 h-[420px] w-[280px] -translate-x-1/2 -translate-y-1/3"
           style={{
             background:
-              "radial-gradient(ellipse at 50% 40%, rgba(0,198,15,0.32) 0%, rgba(0,198,15,0.10) 45%, transparent 70%)",
-            filter: "blur(48px)",
+              "radial-gradient(ellipse at 50% 40%, rgba(0,198,15,0.10) 0%, transparent 65%)",
+            filter: "blur(56px)",
           }}
         />
 
@@ -323,15 +280,16 @@ function PhoneMockup() {
                 }}
               />
 
-              {/* Screen content */}
-              <AnimatePresence mode="wait">
+              {/* Screen content — crossfade (sync so the next screen
+                  mounts immediately; both are absolutely positioned) */}
+              <AnimatePresence initial={false}>
                 <motion.div
                   key={activeState}
                   className="absolute inset-0"
-                  initial={{ opacity: 0, y: 24 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -16 }}
-                  transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.35, ease: "easeInOut" }}
                 >
                   {activeState === "whatsapp" && <WhatsAppScreen />}
                   {activeState === "voice" && <VoiceScreen />}
@@ -439,100 +397,98 @@ function WhatsAppScreen() {
   return (
     <div
       className="flex h-full flex-col"
-      style={{ background: "#0b1a0c", paddingTop: 50 }}
+      style={{ background: "#EFEAE2", paddingTop: 46 }}
     >
-      {/* WhatsApp header */}
+      {/* Real WhatsApp header (light mode) */}
       <div
-        className="flex items-center gap-3 px-3 py-3"
-        style={{
-          background: "#075E54",
-          borderBottom: "1px solid rgba(255,255,255,0.06)",
-        }}
+        className="flex items-center gap-2.5 px-2.5 py-2"
+        style={{ background: "#075E54" }}
       >
         {/* Back arrow */}
-        <svg width="10" height="16" viewBox="0 0 10 16" fill="none" aria-hidden>
-          <path d="M9 1L1 8L9 15" stroke="rgba(255,255,255,0.75)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+        <svg width="11" height="18" viewBox="0 0 10 16" fill="none" aria-hidden>
+          <path d="M9 1L1 8L9 15" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
 
-        {/* Avatar — letter initial */}
+        {/* Avatar */}
         <div
           style={{
-            width: 34,
-            height: 34,
+            width: 36,
+            height: 36,
             borderRadius: "50%",
-            background: "#128C7E",
+            background: "#cfd8dc",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            fontWeight: 700,
-            fontSize: 13,
-            color: "rgba(255,255,255,0.9)",
             flexShrink: 0,
+            overflow: "hidden",
           }}
         >
-          B
+          <svg width="36" height="36" viewBox="0 0 36 36" aria-hidden>
+            <circle cx="18" cy="14" r="6" fill="#9aa7ad" />
+            <path d="M6 32c0-6.6 5.4-11 12-11s12 4.4 12 11" fill="#9aa7ad" />
+          </svg>
         </div>
 
         <div style={{ flex: 1, minWidth: 0 }}>
-          <p style={{ fontSize: 13, fontWeight: 600, color: "#fff", lineHeight: 1.2 }}>
-            Bokle AI
+          <p style={{ fontSize: 13.5, fontWeight: 600, color: "#fff", lineHeight: 1.2 }}>
+            Lotus Dental Clinic
           </p>
-          <p style={{ fontSize: 10, color: "rgba(255,255,255,0.65)", marginTop: 1 }}>
-            Online
+          <p style={{ fontSize: 10.5, color: "rgba(255,255,255,0.7)", marginTop: 1 }}>
+            online
           </p>
         </div>
 
-        {/* Video + more */}
-        <div style={{ display: "flex", gap: 14, color: "rgba(255,255,255,0.75)" }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+        {/* Video, call, more */}
+        <div style={{ display: "flex", gap: 16, color: "#fff", paddingRight: 2 }}>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
             <polygon points="23 7 16 12 23 17 23 7" />
             <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
           </svg>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden>
-            <circle cx="12" cy="5" r="1" fill="currentColor" />
-            <circle cx="12" cy="12" r="1" fill="currentColor" />
-            <circle cx="12" cy="19" r="1" fill="currentColor" />
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+            <path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6a1 1 0 0 0-1 .2l-2.2 2.2a15 15 0 0 1-6.6-6.6l2.2-2.2a1 1 0 0 0 .2-1C8.7 6.5 8.5 5.3 8.5 4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1 17 17 0 0 0 17 17 1 1 0 0 0 1-1v-3.5a1 1 0 0 0-1-1Z" />
           </svg>
         </div>
       </div>
 
-      {/* Chat area — WhatsApp wallpaper tint */}
+      {/* Chat area — real WhatsApp beige wallpaper */}
       <div
-        className="flex-1 overflow-hidden px-3 py-4"
+        className="flex-1 overflow-hidden px-2.5 py-3"
         style={{
-          background: "rgba(11,26,12,0.95)",
+          background:
+            "#EFEAE2 url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Cg fill='%23d9cfc0' fill-opacity='0.35'%3E%3Ccircle cx='6' cy='6' r='1'/%3E%3Ccircle cx='26' cy='18' r='1'/%3E%3Ccircle cx='14' cy='30' r='1'/%3E%3C/g%3E%3C/svg%3E\")",
           display: "flex",
           flexDirection: "column",
-          gap: 8,
+          gap: 6,
         }}
       >
-        {/* Lead message */}
+        {/* Incoming — customer (white bubble, left) */}
         <AnimatePresence>
           {step >= 1 && (
             <motion.div
-              initial={{ opacity: 0, y: 8, scale: 0.97 }}
+              initial={{ opacity: 0, y: 8, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.28 }}
               style={{ display: "flex", justifyContent: "flex-start" }}
             >
               <div
                 style={{
-                  maxWidth: "80%",
-                  background: "rgba(255,255,255,0.08)",
-                  borderRadius: "14px 14px 14px 4px",
-                  padding: "8px 10px",
+                  maxWidth: "82%",
+                  background: "#fff",
+                  borderRadius: "0 8px 8px 8px",
+                  padding: "6px 9px 5px",
+                  boxShadow: "0 1px 0.5px rgba(0,0,0,0.13)",
                 }}
               >
-                <p style={{ fontSize: 11, color: "rgba(255,255,255,0.88)", lineHeight: 1.55 }}>
+                <p style={{ margin: 0, fontSize: 12.5, color: "#111b21", lineHeight: 1.4 }}>
                   Hi, I run a dental clinic and we&apos;re losing leads every night after 7pm. Saw your ad.
                 </p>
-                <p style={{ fontSize: 9, color: "rgba(255,255,255,0.32)", marginTop: 3, textAlign: "right" }}>09:41</p>
+                <p style={{ fontSize: 10, color: "#667781", marginTop: 2, textAlign: "right" }}>09:41</p>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* Typing indicator */}
+        {/* Typing indicator (outgoing side) */}
         <AnimatePresence>
           {step === 1 && (
             <motion.div
@@ -543,9 +499,10 @@ function WhatsAppScreen() {
             >
               <div
                 style={{
-                  background: "#25D366",
-                  borderRadius: "14px 14px 4px 14px",
-                  padding: "9px 12px",
+                  background: "#DCF8C6",
+                  borderRadius: "8px 0 8px 8px",
+                  padding: "8px 11px",
+                  boxShadow: "0 1px 0.5px rgba(0,0,0,0.13)",
                 }}
               >
                 <TypingDots />
@@ -554,113 +511,92 @@ function WhatsAppScreen() {
           )}
         </AnimatePresence>
 
-        {/* AI reply */}
+        {/* Outgoing — business reply (green bubble, right) */}
         <AnimatePresence>
           {step >= 2 && (
             <motion.div
-              initial={{ opacity: 0, y: 8, scale: 0.97 }}
+              initial={{ opacity: 0, y: 8, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.32 }}
+              transition={{ duration: 0.3 }}
               style={{ display: "flex", justifyContent: "flex-end" }}
             >
               <div
                 style={{
-                  maxWidth: "82%",
-                  background: "#25D366",
-                  borderRadius: "14px 14px 4px 14px",
-                  padding: "8px 10px",
+                  maxWidth: "84%",
+                  background: "#DCF8C6",
+                  borderRadius: "8px 0 8px 8px",
+                  padding: "6px 9px 5px",
+                  boxShadow: "0 1px 0.5px rgba(0,0,0,0.13)",
                 }}
               >
-                <p style={{ fontSize: 11, color: "#073d0a", lineHeight: 1.55 }}>
-                  That&apos;s exactly what we fix. Most dental clinics recover 40–60% of those leads. We can have your WhatsApp agent live in 48 hours. What times are you missing the most calls?
+                <p style={{ margin: 0, fontSize: 12.5, color: "#111b21", lineHeight: 1.4 }}>
+                  That&apos;s exactly what we fix. Most dental clinics recover 40–60% of those leads — we can have your WhatsApp agent live in 48 hours. What times are you missing the most calls?
                 </p>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 3, marginTop: 3 }}>
-                  <p style={{ fontSize: 9, color: "rgba(7,61,10,0.5)" }}>09:41</p>
-                  {/* Double tick SVG */}
-                  <svg width="14" height="8" viewBox="0 0 14 8" fill="none" aria-hidden>
-                    <path d="M1 4L3.5 6.5L8 1.5" stroke="rgba(7,61,10,0.55)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M5 4L7.5 6.5L12 1.5" stroke="rgba(7,61,10,0.55)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 3, marginTop: 2 }}>
+                  <p style={{ fontSize: 10, color: "#667781" }}>09:41</p>
+                  {/* Blue double tick — read */}
+                  <svg width="15" height="9" viewBox="0 0 15 9" fill="none" aria-hidden>
+                    <path d="M1 4.5L3.6 7L8.4 1.5" stroke="#53BDEB" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M6 4.5L8.6 7L13.4 1.5" stroke="#53BDEB" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
-
-        {/* Response time badge */}
-        <AnimatePresence>
-          {step >= 3 && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8, y: 4 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ type: "spring", stiffness: 240, damping: 18 }}
-              style={{ display: "flex", justifyContent: "center" }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 5,
-                  background: "rgba(0,198,15,0.12)",
-                  border: "1px solid rgba(0,198,15,0.35)",
-                  borderRadius: 100,
-                  padding: "4px 10px",
-                }}
-              >
-                <motion.span
-                  animate={{ opacity: [1, 0.3, 1] }}
-                  transition={{ duration: 1.2, repeat: Infinity }}
-                  style={{ width: 5, height: 5, borderRadius: "50%", background: "#00C60F", flexShrink: 0, display: "block" }}
-                />
-                <span style={{ fontSize: 9, fontWeight: 700, color: "#00C60F", letterSpacing: "0.08em", textTransform: "uppercase" }}>
-                  Replied in 8 seconds
-                </span>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
 
-      {/* Input bar */}
+      {/* Real WhatsApp input bar */}
       <div
         style={{
           display: "flex",
           alignItems: "center",
-          gap: 8,
-          padding: "10px 12px",
-          background: "#111b11",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
+          gap: 6,
+          padding: "7px 8px",
+          background: "#F0F0F0",
         }}
       >
         <div
           style={{
             flex: 1,
-            background: "rgba(255,255,255,0.07)",
+            display: "flex",
+            alignItems: "center",
+            gap: 7,
+            background: "#fff",
             borderRadius: 22,
-            padding: "7px 14px",
-            fontSize: 10,
-            color: "rgba(255,255,255,0.22)",
+            padding: "7px 12px",
           }}
         >
-          Type a message
+          {/* emoji */}
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8696a0" strokeWidth="1.8" aria-hidden>
+            <circle cx="12" cy="12" r="9" />
+            <path d="M8 14s1.5 2 4 2 4-2 4-2" strokeLinecap="round" />
+            <line x1="9" y1="9" x2="9.01" y2="9" strokeLinecap="round" />
+            <line x1="15" y1="9" x2="15.01" y2="9" strokeLinecap="round" />
+          </svg>
+          <span style={{ flex: 1, fontSize: 12, color: "#8696a0" }}>Message</span>
+          {/* attach */}
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8696a0" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
+          </svg>
         </div>
-        {/* Mic icon */}
+        {/* Send/mic */}
         <div
           style={{
-            width: 32,
-            height: 32,
+            width: 38,
+            height: 38,
             borderRadius: "50%",
-            background: "#25D366",
+            background: "#00A884",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             flexShrink: 0,
           }}
         >
-          <svg width="12" height="14" viewBox="0 0 12 14" fill="none" aria-hidden>
-            <rect x="3.5" y="0.5" width="5" height="7" rx="2.5" fill="#073d0a"/>
-            <path d="M1 7C1 9.76 3.24 12 6 12C8.76 12 11 9.76 11 7" stroke="#073d0a" strokeWidth="1.4" strokeLinecap="round"/>
-            <line x1="6" y1="12" x2="6" y2="13.5" stroke="#073d0a" strokeWidth="1.4" strokeLinecap="round"/>
+          <svg width="15" height="17" viewBox="0 0 12 14" fill="none" aria-hidden>
+            <rect x="3.5" y="0.5" width="5" height="7.5" rx="2.5" fill="#fff" />
+            <path d="M1 7C1 9.76 3.24 12 6 12C8.76 12 11 9.76 11 7" stroke="#fff" strokeWidth="1.4" strokeLinecap="round" />
+            <line x1="6" y1="12" x2="6" y2="13.5" stroke="#fff" strokeWidth="1.4" strokeLinecap="round" />
           </svg>
         </div>
       </div>
@@ -673,17 +609,10 @@ function WhatsAppScreen() {
 /* ================================================================ */
 function VoiceScreen() {
   const [secs, setSecs] = useState(0);
-  const [transcriptStep, setTranscriptStep] = useState(0);
 
   useEffect(() => {
     const clockId = setInterval(() => setSecs((s) => s + 1), 1000);
-    const t1 = setTimeout(() => setTranscriptStep(1), 900);
-    const t2 = setTimeout(() => setTranscriptStep(2), 2200);
-    return () => {
-      clearInterval(clockId);
-      clearTimeout(t1);
-      clearTimeout(t2);
-    };
+    return () => clearInterval(clockId);
   }, []);
 
   const mm = String(Math.floor(secs / 60)).padStart(2, "0");
@@ -693,41 +622,23 @@ function VoiceScreen() {
     <div
       className="flex h-full flex-col"
       style={{
-        paddingTop: 60,
-        background: "linear-gradient(175deg, #071409 0%, #0a1a0b 45%, #050a06 100%)",
+        paddingTop: 56,
+        background: "linear-gradient(170deg, #1f3a36 0%, #122421 45%, #0b141a 100%)",
       }}
     >
-      {/* Status bar area */}
-      <div style={{ padding: "0 20px 20px", display: "flex", flexDirection: "column", alignItems: "center" }}>
-        {/* Live badge */}
-        <motion.div
-          initial={{ opacity: 0, y: -6 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 5,
-            background: "rgba(0,198,15,0.12)",
-            border: "1px solid rgba(0,198,15,0.28)",
-            borderRadius: 100,
-            padding: "4px 10px",
-            marginBottom: 20,
-          }}
-        >
-          <motion.span
-            animate={{ opacity: [1, 0.2, 1] }}
-            transition={{ duration: 1.1, repeat: Infinity }}
-            style={{ width: 5, height: 5, borderRadius: "50%", background: "#00C60F", display: "block" }}
-          />
-          <span style={{ fontSize: 9, fontWeight: 700, color: "#00C60F", letterSpacing: "0.1em", textTransform: "uppercase" }}>
-            AI Voice Call · Live
+      {/* Top: encrypted + status */}
+      <div style={{ padding: "8px 20px 0", display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 5, marginBottom: 30 }}>
+          <svg width="10" height="12" viewBox="0 0 24 24" fill="rgba(255,255,255,0.45)" aria-hidden>
+            <path d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5Zm3 8H9V6a3 3 0 0 1 6 0Z" />
+          </svg>
+          <span style={{ fontSize: 10.5, color: "rgba(255,255,255,0.45)" }}>
+            End-to-end encrypted
           </span>
-        </motion.div>
+        </div>
 
-        {/* Caller avatar — text initials, no emoji */}
-        <div style={{ position: "relative", marginBottom: 14 }}>
-          {/* Pulse rings */}
+        {/* Caller avatar */}
+        <div style={{ position: "relative", marginBottom: 18 }}>
           {[1, 2].map((ring) => (
             <motion.div
               key={ring}
@@ -736,164 +647,101 @@ function VoiceScreen() {
                 top: "50%",
                 left: "50%",
                 transform: "translate(-50%, -50%)",
-                width: 60 + ring * 24,
-                height: 60 + ring * 24,
+                width: 96 + ring * 26,
+                height: 96 + ring * 26,
                 borderRadius: "50%",
-                border: "1px solid rgba(0,198,15,0.22)",
+                border: "1px solid rgba(255,255,255,0.10)",
               }}
-              animate={{ scale: [1, 1.18, 1], opacity: [0.5, 0.05, 0.5] }}
-              transition={{
-                duration: 2.8,
-                delay: ring * 0.7,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
+              animate={{ scale: [1, 1.12, 1], opacity: [0.4, 0.05, 0.4] }}
+              transition={{ duration: 3, delay: ring * 0.8, repeat: Infinity, ease: "easeInOut" }}
             />
           ))}
-
-          {/* Avatar */}
           <div
             style={{
-              width: 58,
-              height: 58,
+              width: 96,
+              height: 96,
               borderRadius: "50%",
-              background: "linear-gradient(145deg, #1a3d1d, #0d2110)",
-              border: "2px solid rgba(0,198,15,0.4)",
-              boxShadow: "0 0 24px rgba(0,198,15,0.2)",
+              background: "#cfd8dc",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               position: "relative",
               zIndex: 10,
+              overflow: "hidden",
             }}
           >
-            <span style={{ fontSize: 16, fontWeight: 700, color: "#00C60F", letterSpacing: "-0.02em" }}>
-              BA
-            </span>
+            <svg width="96" height="96" viewBox="0 0 36 36" aria-hidden>
+              <circle cx="18" cy="14" r="6" fill="#9aa7ad" />
+              <path d="M6 32c0-6.6 5.4-11 12-11s12 4.4 12 11" fill="#9aa7ad" />
+            </svg>
           </div>
         </div>
 
         {/* Name + timer */}
-        <p style={{ fontSize: 14, fontWeight: 600, color: "#fff", marginBottom: 4 }}>
-          Bokle Voice Agent
+        <p style={{ fontSize: 21, fontWeight: 600, color: "#fff", marginBottom: 6 }}>
+          Lotus Dental Clinic
         </p>
-        <p style={{ fontFamily: "ui-monospace, monospace", fontSize: 11, color: "#00C60F", marginBottom: 18 }}>
-          {mm}:{ss}
-        </p>
-
-        {/* Waveform */}
-        <div style={{ display: "flex", alignItems: "center", gap: 3, height: 36, marginBottom: 18 }}>
-          {VOICE_BARS.map((b, i) => (
-            <motion.div
-              key={i}
-              style={{
-                width: 2.5,
-                borderRadius: 2,
-                background: "#00C60F",
-                opacity: 0.75,
-              }}
-              animate={{
-                height: [`${b.height * 0.38}px`, `${b.height}px`, `${b.height * 0.38}px`],
-              }}
-              transition={{
-                duration: b.dur,
-                delay: i * 0.055,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
-          ))}
+        <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 26 }}>
+          {/* live audio dots */}
+          <div style={{ display: "flex", alignItems: "center", gap: 2, height: 12 }}>
+            {[10, 7, 12, 6, 9].map((h, i) => (
+              <motion.span
+                key={i}
+                style={{ width: 2, borderRadius: 2, background: "rgba(255,255,255,0.6)" }}
+                animate={{ height: [`${h * 0.4}px`, `${h}px`, `${h * 0.4}px`] }}
+                transition={{ duration: 0.7 + i * 0.08, repeat: Infinity, ease: "easeInOut" }}
+              />
+            ))}
+          </div>
+          <p style={{ fontFamily: "ui-monospace, monospace", fontSize: 13, color: "rgba(255,255,255,0.7)" }}>
+            {mm}:{ss}
+          </p>
         </div>
       </div>
 
-      {/* Live transcript */}
-      <div style={{ flex: 1, padding: "0 16px", display: "flex", flexDirection: "column", gap: 8 }}>
-        <AnimatePresence>
-          {transcriptStep >= 1 && (
-            <motion.div
-              key="t1"
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.35 }}
-              style={{
-                background: "rgba(255,255,255,0.05)",
-                borderRadius: 10,
-                padding: "8px 10px",
-              }}
-            >
-              <p style={{ fontSize: 8, fontWeight: 600, color: "rgba(0,198,15,0.5)", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 3 }}>
-                AI
-              </p>
-              <p style={{ fontSize: 10, color: "rgba(255,255,255,0.7)", lineHeight: 1.5 }}>
-                Hi — I&apos;m calling back about your enquiry to Al Noor Clinic. Is this a good time?
-              </p>
-            </motion.div>
-          )}
-          {transcriptStep >= 2 && (
-            <motion.div
-              key="t2"
-              initial={{ opacity: 0, x: 10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.35 }}
-              style={{
-                background: "rgba(255,255,255,0.05)",
-                borderRadius: 10,
-                padding: "8px 10px",
-                alignSelf: "flex-end",
-                maxWidth: "90%",
-              }}
-            >
-              <p style={{ fontSize: 8, fontWeight: 600, color: "rgba(255,255,255,0.3)", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 3, textAlign: "right" }}>
-                Caller
-              </p>
-              <p style={{ fontSize: 10, color: "rgba(255,255,255,0.7)", lineHeight: 1.5, textAlign: "right" }}>
-                Yes, I missed a call earlier — it was about booking a root canal.
-              </p>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+      {/* Spacer */}
+      <div style={{ flex: 1 }} />
 
-      {/* Call controls */}
+      {/* Call controls — WhatsApp style: speaker, video, mute, end */}
       <div
         style={{
           display: "flex",
-          justifyContent: "center",
-          gap: 20,
-          padding: "16px 20px 24px",
+          justifyContent: "space-around",
+          alignItems: "center",
+          padding: "16px 24px 30px",
         }}
       >
-        {/* Mute */}
-        <div
-          style={{
-            width: 46,
-            height: 46,
-            borderRadius: "50%",
-            background: "rgba(255,255,255,0.08)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.55)" strokeWidth="1.8" strokeLinecap="round" aria-hidden>
-            <line x1="1" y1="1" x2="23" y2="23" />
-            <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6" />
-            <path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23" />
-            <line x1="12" y1="19" x2="12" y2="23" />
-            <line x1="8" y1="23" x2="16" y2="23" />
-          </svg>
-        </div>
+        {[
+          { key: "speaker", path: (<><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" /><path d="M15.54 8.46a5 5 0 0 1 0 7.07" /><path d="M19.07 4.93a10 10 0 0 1 0 14.14" /></>) },
+          { key: "video", path: (<><polygon points="23 7 16 12 23 17 23 7" /><rect x="1" y="5" width="15" height="14" rx="2" ry="2" /></>) },
+          { key: "mute", path: (<><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3Z" /><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4" /></>) },
+        ].map((b) => (
+          <div
+            key={b.key}
+            style={{
+              width: 50,
+              height: 50,
+              borderRadius: "50%",
+              background: "rgba(255,255,255,0.12)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              {b.path}
+            </svg>
+          </div>
+        ))}
 
         {/* End call */}
         <motion.button
-          whileHover={{ scale: 1.07 }}
           whileTap={{ scale: 0.93 }}
           style={{
-            width: 52,
-            height: 52,
+            width: 50,
+            height: 50,
             borderRadius: "50%",
-            background: "#DC2626",
-            boxShadow: "0 0 20px rgba(220,38,38,0.4)",
+            background: "#EA4335",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -903,25 +751,6 @@ function VoiceScreen() {
         >
           <PhoneOff className="h-5 w-5 text-white" />
         </motion.button>
-
-        {/* Speaker */}
-        <div
-          style={{
-            width: 46,
-            height: 46,
-            borderRadius: "50%",
-            background: "rgba(255,255,255,0.08)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.55)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-            <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
-            <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
-          </svg>
-        </div>
       </div>
     </div>
   );
@@ -946,56 +775,52 @@ function WebChatScreen() {
     };
   }, []);
 
+  const ACCENT = "#4F46E5"; // indigo — neutral website-widget accent
+
   return (
     <div
       className="flex h-full flex-col"
-      style={{ paddingTop: 50, background: "#060d07" }}
+      style={{ paddingTop: 44, background: "#F4F5F7" }}
     >
-      {/* Widget header */}
+      {/* Widget header — clean dark bar like a real site chat */}
       <div
         style={{
           display: "flex",
           alignItems: "center",
           gap: 10,
-          padding: "10px 14px",
-          background: "#0c1f0d",
-          borderBottom: "1px solid rgba(0,198,15,0.12)",
+          padding: "11px 14px",
+          background: "#111827",
         }}
       >
-        {/* Avatar — letter initial, no emoji */}
+        {/* Avatar */}
         <div
           style={{
-            width: 32,
-            height: 32,
+            width: 34,
+            height: 34,
             borderRadius: "50%",
-            background: "#15621B",
-            border: "1.5px solid rgba(0,198,15,0.4)",
+            background: ACCENT,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             flexShrink: 0,
           }}
         >
-          <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.88)" }}>B</span>
+          <span style={{ fontSize: 13, fontWeight: 700, color: "#fff" }}>L</span>
         </div>
 
         <div style={{ flex: 1 }}>
-          <p style={{ fontSize: 12, fontWeight: 600, color: "#fff", lineHeight: 1.2 }}>
-            Bokle Assistant
+          <p style={{ fontSize: 12.5, fontWeight: 600, color: "#fff", lineHeight: 1.2 }}>
+            Lotus Dental Clinic
           </p>
           <div style={{ display: "flex", alignItems: "center", gap: 5, marginTop: 2 }}>
-            <motion.span
-              animate={{ opacity: [1, 0.3, 1] }}
-              transition={{ duration: 1.4, repeat: Infinity }}
-              style={{ width: 6, height: 6, borderRadius: "50%", background: "#00C60F", display: "block" }}
-            />
-            <span style={{ fontSize: 9, color: "#00C60F" }}>Online</span>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#22C55E", display: "block" }} />
+            <span style={{ fontSize: 9.5, color: "rgba(255,255,255,0.6)" }}>Typically replies instantly</span>
           </div>
         </div>
 
         {/* Close */}
-        <button style={{ color: "rgba(255,255,255,0.3)", lineHeight: 1, background: "none", border: "none", cursor: "pointer", padding: 2 }}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden>
+        <button style={{ color: "rgba(255,255,255,0.45)", lineHeight: 1, background: "none", border: "none", cursor: "pointer", padding: 2 }}>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" aria-hidden>
             <line x1="18" y1="6" x2="6" y2="18" />
             <line x1="6" y1="6" x2="18" y2="18" />
           </svg>
@@ -1010,7 +835,7 @@ function WebChatScreen() {
           padding: "14px 12px",
           display: "flex",
           flexDirection: "column",
-          gap: 10,
+          gap: 9,
         }}
       >
         <AnimatePresence>
@@ -1021,21 +846,21 @@ function WebChatScreen() {
               animate={{ opacity: 1, y: 0 }}
               style={{ display: "flex", alignItems: "flex-end", gap: 7 }}
             >
-              {/* Small avatar */}
-              <div style={{ width: 22, height: 22, borderRadius: "50%", background: "#15621B", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                <span style={{ fontSize: 8, fontWeight: 700, color: "rgba(255,255,255,0.85)" }}>B</span>
+              <div style={{ width: 24, height: 24, borderRadius: "50%", background: ACCENT, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <span style={{ fontSize: 9, fontWeight: 700, color: "#fff" }}>L</span>
               </div>
               <div
                 style={{
-                  background: "rgba(0,198,15,0.1)",
-                  border: "1px solid rgba(0,198,15,0.2)",
-                  borderRadius: "12px 12px 12px 4px",
-                  padding: "8px 10px",
+                  background: "#fff",
+                  border: "1px solid #E5E7EB",
+                  borderRadius: "14px 14px 14px 4px",
+                  padding: "8px 11px",
                   maxWidth: "82%",
+                  boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
                 }}
               >
-                <p style={{ fontSize: 11, color: "rgba(255,255,255,0.88)", lineHeight: 1.55 }}>
-                  Hi! Looking into AI automation for your business?
+                <p style={{ margin: 0, fontSize: 11.5, color: "#1F2937", lineHeight: 1.5 }}>
+                  Hi! 👋 Looking into AI automation for your business?
                 </p>
               </div>
             </motion.div>
@@ -1050,13 +875,13 @@ function WebChatScreen() {
             >
               <div
                 style={{
-                  background: "rgba(255,255,255,0.08)",
-                  borderRadius: "12px 12px 4px 12px",
-                  padding: "8px 10px",
+                  background: ACCENT,
+                  borderRadius: "14px 14px 4px 14px",
+                  padding: "8px 11px",
                   maxWidth: "80%",
                 }}
               >
-                <p style={{ fontSize: 11, color: "rgba(255,255,255,0.85)", lineHeight: 1.55 }}>
+                <p style={{ margin: 0, fontSize: 11.5, color: "#fff", lineHeight: 1.5 }}>
                   Yes — we run an aesthetic clinic and lose leads after hours.
                 </p>
               </div>
@@ -1070,20 +895,21 @@ function WebChatScreen() {
               animate={{ opacity: 1, y: 0 }}
               style={{ display: "flex", alignItems: "flex-end", gap: 7 }}
             >
-              <div style={{ width: 22, height: 22, borderRadius: "50%", background: "#15621B", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                <span style={{ fontSize: 8, fontWeight: 700, color: "rgba(255,255,255,0.85)" }}>B</span>
+              <div style={{ width: 24, height: 24, borderRadius: "50%", background: ACCENT, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <span style={{ fontSize: 9, fontWeight: 700, color: "#fff" }}>L</span>
               </div>
               <div
                 style={{
-                  background: "rgba(0,198,15,0.1)",
-                  border: "1px solid rgba(0,198,15,0.2)",
-                  borderRadius: "12px 12px 12px 4px",
-                  padding: "8px 10px",
+                  background: "#fff",
+                  border: "1px solid #E5E7EB",
+                  borderRadius: "14px 14px 14px 4px",
+                  padding: "8px 11px",
                   maxWidth: "82%",
+                  boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
                 }}
               >
-                <p style={{ fontSize: 11, color: "rgba(255,255,255,0.88)", lineHeight: 1.55 }}>
-                  We handle that a lot — WhatsApp agents for clinics go live in under 48 hours. Which channel do you miss most?
+                <p style={{ margin: 0, fontSize: 11.5, color: "#1F2937", lineHeight: 1.5 }}>
+                  We handle that a lot — agents for clinics go live in under 48 hours. Which channel do you miss most?
                 </p>
               </div>
             </motion.div>
@@ -1096,18 +922,18 @@ function WebChatScreen() {
             <motion.div
               initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
-              style={{ display: "flex", flexWrap: "wrap", gap: 5, paddingLeft: 29 }}
+              style={{ display: "flex", flexWrap: "wrap", gap: 6, paddingLeft: 31 }}
             >
               {["WhatsApp", "Phone calls", "Website chat", "All channels"].map((chip) => (
                 <button
                   key={chip}
                   style={{
-                    border: "1px solid rgba(0,198,15,0.35)",
-                    color: "#00C60F",
-                    background: "rgba(0,198,15,0.06)",
+                    border: `1px solid ${ACCENT}`,
+                    color: ACCENT,
+                    background: "#fff",
                     borderRadius: 100,
-                    padding: "4px 9px",
-                    fontSize: 9,
+                    padding: "5px 10px",
+                    fontSize: 9.5,
                     fontWeight: 500,
                     cursor: "pointer",
                   }}
@@ -1127,40 +953,43 @@ function WebChatScreen() {
           alignItems: "center",
           gap: 8,
           padding: "10px 12px",
-          background: "rgba(0,0,0,0.2)",
-          borderTop: "1px solid rgba(255,255,255,0.05)",
+          background: "#fff",
+          borderTop: "1px solid #ECECEC",
         }}
       >
         <div
           style={{
             flex: 1,
-            background: "rgba(255,255,255,0.05)",
-            border: "1px solid rgba(255,255,255,0.07)",
-            borderRadius: 22,
-            padding: "6px 12px",
-            fontSize: 10,
-            color: "rgba(255,255,255,0.2)",
+            fontSize: 11,
+            color: "#9CA3AF",
           }}
         >
-          Reply…
+          Type your message…
         </div>
         <div
           style={{
-            width: 28,
-            height: 28,
+            width: 30,
+            height: 30,
             borderRadius: "50%",
-            background: "linear-gradient(135deg, #00C60F, #15621B)",
+            background: ACCENT,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             flexShrink: 0,
           }}
         >
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
             <line x1="22" y1="2" x2="11" y2="13" />
             <polygon points="22 2 15 22 11 13 2 9 22 2" />
           </svg>
         </div>
+      </div>
+
+      {/* Powered-by strip — like real widgets */}
+      <div style={{ background: "#fff", textAlign: "center", paddingBottom: 8 }}>
+        <span style={{ fontSize: 8.5, color: "#B6BBC4", letterSpacing: "0.02em" }}>
+          Powered by Bokle AI
+        </span>
       </div>
     </div>
   );
@@ -1177,7 +1006,7 @@ function TypingDots() {
             width: 6,
             height: 6,
             borderRadius: "50%",
-            background: "rgba(7,61,10,0.55)",
+            background: "#8696a0",
             display: "block",
           }}
           animate={{ y: [0, -5, 0] }}

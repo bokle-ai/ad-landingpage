@@ -2,9 +2,9 @@
 
 import { motion } from "framer-motion";
 import { sectionReveal, sectionViewport, staggerRows, rowItem } from "@/lib/motion";
-import Image from "next/image";
 import Headline from "./Headline";
 import CountUp from "./CountUp";
+import MissedLeadsArt from "./illustrations/MissedLeadsArt";
 
 const STATS = [
   {
@@ -93,12 +93,7 @@ export default function Problem() {
                 border: "1px solid rgba(21,98,27,0.25)",
               }}
             >
-              <Image
-                src="/pain-desk.jpg"
-                alt="Leads piling up after hours"
-                fill
-                style={{ objectFit: "cover", objectPosition: "center top" }}
-              />
+              <MissedLeadsArt />
               {/* Bottom gradient */}
               <div
                 className="absolute bottom-0 left-0 right-0"

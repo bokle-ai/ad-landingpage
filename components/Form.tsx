@@ -182,7 +182,7 @@ export default function DiscoveryForm() {
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ type: "spring", damping: 12, stiffness: 160, delay: 0.1 }}
-                    className="h-20 w-20 rounded-full bg-brand-accent flex items-center justify-center shadow-[0_0_60px_rgba(0,198,15,0.6)]"
+                    className="h-20 w-20 rounded-full bg-brand-accent flex items-center justify-center"
                   >
                     <motion.svg
                       width="32"
@@ -316,29 +316,9 @@ export default function DiscoveryForm() {
                     <motion.button
                       type="submit"
                       disabled={status === "submitting"}
-                      whileHover={{
-                        scale: 1.02,
-                        boxShadow: "0 0 40px rgba(0,198,15,0.55)",
-                      }}
-                      whileTap={{ scale: 0.96 }}
-                      animate={
-                        status === "submitting"
-                          ? { scale: 1 }
-                          : {
-                              scale: [1, 1.015, 1],
-                              boxShadow: [
-                                "0 0 0px rgba(0,198,15,0)",
-                                "0 0 22px rgba(0,198,15,0.55)",
-                                "0 0 0px rgba(0,198,15,0)",
-                              ],
-                            }
-                      }
-                      transition={{
-                        duration: 4,
-                        repeat: status === "submitting" ? 0 : Infinity,
-                        ease: "easeInOut",
-                      }}
-                      className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-brand-accent text-bg-primary py-5 text-base md:text-lg font-medium transition-shadow disabled:opacity-60"
+                      whileHover={{ scale: 1.01 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-brand-accent text-bg-primary py-5 text-base md:text-lg font-medium transition-colors hover:bg-[#49CA68] disabled:opacity-60"
                     >
                       {status === "submitting"
                         ? "Sending…"

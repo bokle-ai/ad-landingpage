@@ -3,7 +3,7 @@
 import { Fragment } from "react";
 import { motion } from "framer-motion";
 import { MessageCircle, Zap, UserCheck } from "lucide-react";
-import Image from "next/image";
+import CalmFlowArt from "./illustrations/CalmFlowArt";
 
 /* ── Step data ─────────────────────────────────────────────────── */
 const STEPS = [
@@ -160,16 +160,11 @@ export default function HowItWorks() {
           margin: '56px 0',
           border: '1px solid rgba(21,98,27,0.2)'
         }}>
-          <Image
-            src="/relief-person.jpg"
-            alt=""
-            fill
-            style={{ objectFit: 'cover', objectPosition: 'center 30%' }}
-          />
-          {/* Light bottom fade only — let the photo breathe */}
+          <CalmFlowArt />
+          {/* Light bottom fade only — let the art breathe */}
           <div style={{
             position: 'absolute', inset: 0,
-            background: 'linear-gradient(to top, rgba(5,10,6,0.7) 0%, transparent 50%)'
+            background: 'linear-gradient(to top, rgba(5,10,6,0.55) 0%, transparent 60%)'
           }} />
           <div style={{
             position: 'absolute', bottom: '28px', left: 0, right: 0,
@@ -215,10 +210,10 @@ export default function HowItWorks() {
           </p>
 
           <motion.a
-            whileHover={{ scale: 1.03, boxShadow: "0 0 28px rgba(0,198,15,0.45)" }}
-            whileTap={{ scale: 0.97 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             href="#discovery-call"
-            className="shrink-0 font-bold text-[15px]"
+            className="shrink-0 font-bold text-[15px] hover:bg-[#49CA68] transition-colors"
             style={{
               background: "#00C60F",
               color: "#010801",

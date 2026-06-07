@@ -28,9 +28,9 @@ export default function Nav() {
 
         <motion.a
           href="#discovery-call"
-          whileHover={{ scale: 1.03, boxShadow: "0 0 28px rgba(0,198,15,0.5)" }}
-          whileTap={{ scale: 0.97 }}
-          className="inline-flex items-center gap-2 rounded-full bg-[#00C60F] text-[#010801] font-bold px-6 py-3 text-sm transition-shadow"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className="inline-flex items-center gap-2 rounded-full bg-[#00C60F] hover:bg-[#49CA68] text-[#010801] font-bold px-6 py-3 text-sm transition-colors"
         >
           Book Your Discovery Call
           <ArrowRight className="h-4 w-4" />
