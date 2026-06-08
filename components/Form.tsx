@@ -90,7 +90,23 @@ export default function DiscoveryForm() {
     if (!validate()) return;
     setStatus("submitting");
 
-    const payload = {
+    // CRM `Leads` table — columns: Name / Email / Phone / Message
+    // (id + created_at are auto-generated). The extra form fields that the
+    // CRM table doesn't have a column for are folded into Message so nothing
+    // is lost.
+    const crmLead = {
+      Name: data.fullName,
+      Email: data.email,
+      Phone: data.whatsapp,
+      Message: [
+        `Business: ${data.businessName}`,
+        `Challenge: ${data.challenge}`,
+        `Source: Landing page · discovery-call request`,
+      ].join("\n"),
+    };
+
+    // Original shape kept for the Google Sheets webhook.
+    const sheetPayload = {
       full_name: data.fullName,
       business_name: data.businessName,
       whatsapp: data.whatsapp,
@@ -100,15 +116,15 @@ export default function DiscoveryForm() {
 
     // Fire both writes in parallel — either succeeding is enough to show success
     const results = await Promise.allSettled([
-      // 1. Supabase — primary database
-      supabase.from("discovery_calls").insert([payload]),
+      // 1. Supabase CRM — leads land directly in the shared CRM
+      supabase.from("Leads").insert([crmLead]),
 
       // 2. Google Sheets via Apps Script webhook
       APPS_SCRIPT_URL
         ? fetch(APPS_SCRIPT_URL, {
             method: "POST",
             headers: { "Content-Type": "text/plain" },
-            body: JSON.stringify(payload),
+            body: JSON.stringify(sheetPayload),
             mode: "no-cors", // Apps Script requires no-cors
           })
         : Promise.resolve(),
