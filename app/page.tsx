@@ -1,6 +1,7 @@
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
 import Problem from "@/components/Problem";
+import Industries from "@/components/Industries";
 import Testimonials from "@/components/Testimonials";
 import HowItWorks from "@/components/HowItWorks";
 import DiscoveryForm from "@/components/Form";
@@ -12,6 +13,7 @@ export default function Page() {
       <Nav />
       <Hero />
       <Problem />
+      <Industries />
       <Testimonials />
       <HowItWorks />
       <DiscoveryForm />
