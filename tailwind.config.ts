@@ -21,7 +21,6 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["var(--font-dm-sans)", "system-ui", "sans-serif"],
-        display: ["var(--font-display)", "system-ui", "sans-serif"],
       },
       fontSize: {
         "display": ["clamp(3rem, 9vw, 6rem)", { lineHeight: "0.95", letterSpacing: "-0.03em" }],

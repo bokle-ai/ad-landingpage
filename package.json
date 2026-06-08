@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fontsource-variable/archivo": "^5.2.8",
     "@supabase/supabase-js": "^2.105.4",
     "framer-motion": "^11.11.9",
     "lucide-react": "^0.454.0",

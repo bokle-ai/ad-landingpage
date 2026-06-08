@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { DM_Sans } from "next/font/google";
+import "@fontsource-variable/archivo/wdth.css";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -35,14 +36,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={dmSans.variable}>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Archivo+Expanded:wght@600;700;800&display=swap"
-          rel="stylesheet"
-        />
-      </head>
       <body className="bg-bg-primary text-white antialiased">{children}</body>
     </html>
   );
