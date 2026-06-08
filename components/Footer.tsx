@@ -71,7 +71,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 border-t border-brand-accent/20 pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-xs uppercase tracking-[0.22em]">
+        <div className="mt-16 border-t border-brand-accent/20 pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-sm">
           <span className="text-body">
             © {new Date().getFullYear()} Bokle AI. All rights reserved.
           </span>

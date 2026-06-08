@@ -56,7 +56,7 @@ export default function Hero() {
           >
             <Headline
               as="h1"
-              className="mt-7 max-w-5xl text-[clamp(2.5rem,6.6vw,5.25rem)] font-bold leading-[0.96] tracking-[-0.045em] text-white"
+              className="mt-7 max-w-5xl text-[clamp(2.4rem,6vw,4.75rem)] font-bold leading-[0.98] tracking-[-0.04em] text-white"
               lines={[
                 { text: "Turn ad clicks into" },
                 { text: "booked conversations" },
