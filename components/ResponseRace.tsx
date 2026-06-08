@@ -52,6 +52,7 @@ export default function ResponseRace() {
   const showLanes = step >= 2;
   const compReplied = step >= 3;
   const compBooked = step >= 4;
+  const youLost = step >= 5;
 
   return (
     <div style={{ width: "100%", maxWidth: 380 }}>
@@ -86,20 +87,40 @@ export default function ResponseRace() {
         {showLanes && (
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}>
             <p style={labelStyle}>YOU</p>
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 9,
-                background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.08)",
-                borderRadius: 12,
-                padding: "10px 13px",
-              }}
-            >
-              <TypingDots />
-              <span style={{ fontSize: 12.5, color: "rgba(255,255,255,0.45)" }}>still typing…</span>
-            </div>
+            {!youLost ? (
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 9,
+                  background: "rgba(255,255,255,0.04)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  borderRadius: 12,
+                  padding: "10px 13px",
+                }}
+              >
+                <TypingDots />
+                <span style={{ fontSize: 12.5, color: "rgba(255,255,255,0.45)" }}>still typing…</span>
+              </div>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3 }}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  background: "rgba(248,113,113,0.08)",
+                  border: "1px solid rgba(248,113,113,0.35)",
+                  borderRadius: 12,
+                  padding: "10px 13px",
+                }}
+              >
+                <span style={{ color: "#f87171", fontSize: 14, lineHeight: 1 }}>✕</span>
+                <span style={{ fontSize: 12.5, color: "#f87171", fontWeight: 600 }}>Lead lost</span>
+              </motion.div>
+            )}
           </motion.div>
         )}
 
