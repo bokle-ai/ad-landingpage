@@ -17,7 +17,7 @@ const config: Config = {
           green: "#15621B",
           accent: "#00C60F",
         },
-        body: "rgba(255,255,255,0.55)",
+        body: "rgba(255,255,255,0.72)",
       },
       fontFamily: {
         sans: ["var(--font-dm-sans)", "system-ui", "sans-serif"],

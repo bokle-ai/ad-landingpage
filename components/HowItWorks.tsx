@@ -1,33 +1,33 @@
 "use client";
 
-import { Fragment } from "react";
 import { motion } from "framer-motion";
-import { MessageCircle, Zap, UserCheck } from "lucide-react";
-import CalmFlowArt from "./illustrations/CalmFlowArt";
+import { Check } from "lucide-react";
 
-/* ── Step data ─────────────────────────────────────────────────── */
-const STEPS = [
+/* ── Timeline data — the literal 30-second journey ─────────────── */
+const EVENTS = [
   {
-    num: "01",
-    Icon: MessageCircle,
-    title: "They reach out",
-    body: "On WhatsApp, your website, or by phone. Day or night. In any language.",
+    time: "0:00",
+    title: "New enquiry arrives",
+    body: "On WhatsApp, your website, or a phone call. Day or night, in any language.",
   },
   {
-    num: "02",
-    Icon: Zap,
-    title: "Bokle AI responds instantly",
-    body: "In under 30 seconds. Qualifies their intent. Answers their questions. Speaks your business's voice.",
+    time: "0:08",
+    title: "Bokle replies instantly",
+    body: "Qualifies their intent and answers their questions — in your business's voice.",
   },
   {
-    num: "03",
-    Icon: UserCheck,
-    title: "You get a qualified lead",
-    body: "Routed to your team with full context. No chasing. No cold follow-ups. No missed revenue. Your team only talks to serious buyers.",
+    time: "0:22",
+    title: "Lead qualified & routed",
+    body: "Handed to your team with full context. No chasing, no cold follow-ups.",
+  },
+  {
+    time: "0:30",
+    title: "Appointment booked",
+    body: "Your team only ever talks to serious, ready buyers.",
+    done: true,
   },
 ];
 
-/* ── Shared animation config ──────────────────────────────────── */
 const VIEWPORT = { once: true, amount: 0.3 } as const;
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -60,128 +60,103 @@ export default function HowItWorks() {
           In under 30 seconds.
         </motion.h2>
 
-        {/* ── Three steps ───────────────────────────────────────── */}
-        <div
-          className="mt-20 flex flex-col md:flex-row md:items-start"
-          role="list"
-        >
-          {STEPS.map((step, i) => (
-            <Fragment key={step.num}>
-              {/* Step */}
-              <motion.div
-                role="listitem"
-                initial={{ opacity: 0, y: 28 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={VIEWPORT}
-                transition={{ duration: 0.65, delay: i * 0.13, ease: EASE }}
-                className="flex-1"
-                style={{ paddingBottom: i < STEPS.length - 1 ? 40 : 0 }}
+        {/* ── 30-second timeline ────────────────────────────────── */}
+        <div className="relative mt-16 max-w-[660px]">
+          {/* Continuous connecting line */}
+          <motion.div
+            aria-hidden
+            initial={{ scaleY: 0 }}
+            whileInView={{ scaleY: 1 }}
+            viewport={VIEWPORT}
+            transition={{ duration: 1, ease: EASE }}
+            className="absolute origin-top"
+            style={{
+              left: 70,
+              top: 14,
+              bottom: 26,
+              width: 1.5,
+              background:
+                "linear-gradient(to bottom, rgba(0,198,15,0.5), rgba(0,198,15,0.15))",
+            }}
+          />
+
+          {EVENTS.map((e, i) => (
+            <motion.div
+              key={e.time}
+              initial={{ opacity: 0, x: 12 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={VIEWPORT}
+              transition={{ duration: 0.55, delay: 0.2 + i * 0.14, ease: EASE }}
+              className="relative grid items-start"
+              style={{
+                gridTemplateColumns: "56px 28px 1fr",
+                columnGap: 16,
+                paddingBottom: i < EVENTS.length - 1 ? 40 : 0,
+              }}
+            >
+              {/* Timestamp */}
+              <span
+                style={{
+                  fontFamily: "ui-monospace, SFMono-Regular, monospace",
+                  fontSize: 15,
+                  color: e.done ? "#00C60F" : "rgba(0,198,15,0.75)",
+                  textAlign: "right",
+                  paddingTop: 2,
+                  fontVariantNumeric: "tabular-nums",
+                }}
               >
-                {/* Number */}
-                <p
-                  className="mb-4 font-medium uppercase text-brand-accent"
-                  style={{ fontSize: 11, letterSpacing: "0.2em" }}
-                >
-                  {step.num}
-                </p>
+                {e.time}
+              </span>
 
-                {/* Icon — muted green, thin stroke, 24 px */}
-                <step.Icon
-                  size={24}
-                  strokeWidth={1.5}
-                  color="#15621B"
-                  aria-hidden
-                  className="mb-6"
-                />
+              {/* Node */}
+              <div style={{ display: "flex", justifyContent: "center", paddingTop: 3 }}>
+                {e.done ? (
+                  <div
+                    style={{
+                      width: 24,
+                      height: 24,
+                      borderRadius: "50%",
+                      background: "#00C60F",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      zIndex: 1,
+                    }}
+                  >
+                    <Check size={14} strokeWidth={3} color="#050A06" />
+                  </div>
+                ) : (
+                  <div
+                    style={{
+                      width: 13,
+                      height: 13,
+                      borderRadius: "50%",
+                      background: "#050A06",
+                      border: "1.5px solid rgba(0,198,15,0.7)",
+                      marginTop: 5,
+                      zIndex: 1,
+                    }}
+                  />
+                )}
+              </div>
 
-                {/* Title */}
+              {/* Content */}
+              <div style={{ paddingTop: e.done ? 1 : 0 }}>
                 <h3
-                  className="mb-3 font-medium text-white leading-snug"
-                  style={{ fontSize: 22 }}
+                  className="font-medium text-white"
+                  style={{ fontSize: 20, lineHeight: 1.25 }}
                 >
-                  {step.title}
+                  {e.title}
                 </h3>
-
-                {/* Body */}
                 <p
-                  className="text-base"
-                  style={{
-                    color: "rgba(255,255,255,0.5)",
-                    lineHeight: 1.65,
-                    maxWidth: 240,
-                  }}
+                  className="mt-1.5 text-body"
+                  style={{ fontSize: 15, lineHeight: 1.6, maxWidth: 380 }}
                 >
-                  {step.body}
+                  {e.body}
                 </p>
-              </motion.div>
-
-              {/* Vertical divider — desktop only, between steps */}
-              {i < STEPS.length - 1 && (
-                <motion.div
-                  aria-hidden
-                  initial={{ opacity: 0, scaleY: 0 }}
-                  whileInView={{ opacity: 1, scaleY: 1 }}
-                  viewport={VIEWPORT}
-                  transition={{
-                    duration: 0.5,
-                    delay: i * 0.13 + 0.35,
-                    ease: EASE,
-                  }}
-                  className="hidden md:block mx-10 lg:mx-14 shrink-0 self-center origin-top"
-                  style={{
-                    width: 1,
-                    height: 80,
-                    background: "rgba(21,98,27,0.25)",
-                  }}
-                />
-              )}
-
-              {/* Horizontal divider — mobile only, between steps */}
-              {i < STEPS.length - 1 && (
-                <div
-                  aria-hidden
-                  className="block md:hidden mb-10"
-                  style={{
-                    height: 1,
-                    background: "rgba(21,98,27,0.25)",
-                  }}
-                />
-              )}
-            </Fragment>
+              </div>
+            </motion.div>
           ))}
-        </div>
-
-        {/* ── Relief person image strip ─────────────────────────── */}
-        <div style={{
-          position: 'relative',
-          height: '320px',
-          borderRadius: '12px',
-          overflow: 'hidden',
-          margin: '56px 0',
-          border: '1px solid rgba(21,98,27,0.2)'
-        }}>
-          <CalmFlowArt />
-          {/* Light bottom fade only — let the art breathe */}
-          <div style={{
-            position: 'absolute', inset: 0,
-            background: 'linear-gradient(to top, rgba(5,10,6,0.55) 0%, transparent 60%)'
-          }} />
-          <div style={{
-            position: 'absolute', bottom: '28px', left: 0, right: 0,
-            display: 'flex', alignItems: 'center', justifyContent: 'center'
-          }}>
-            <p style={{
-              fontFamily: 'Instrument Serif, serif',
-              fontStyle: 'italic',
-              fontSize: '20px',
-              color: 'rgba(255,255,255,0.9)',
-              textAlign: 'center',
-              maxWidth: '520px',
-              padding: '0 24px'
-            }}>
-              This is what your business looks like with Bokle running.
-            </p>
-          </div>
         </div>
 
         {/* ── Horizontal rule ───────────────────────────────────── */}
@@ -190,7 +165,7 @@ export default function HowItWorks() {
           whileInView={{ scaleX: 1, opacity: 1 }}
           viewport={VIEWPORT}
           transition={{ duration: 0.7, delay: 0.2, ease: EASE }}
-          className="origin-left"
+          className="origin-left mt-20"
           style={{ height: 1, background: "rgba(21,98,27,0.2)" }}
         />
 
@@ -202,10 +177,7 @@ export default function HowItWorks() {
           transition={{ duration: 0.6, delay: 0.3, ease: EASE }}
           className="mt-[60px] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6"
         >
-          <p
-            className="text-base"
-            style={{ color: "rgba(255,255,255,0.5)", lineHeight: 1.65 }}
-          >
+          <p className="text-base text-body" style={{ lineHeight: 1.65 }}>
             We handle the full setup. You&apos;re live in 48 hours.
           </p>
 
