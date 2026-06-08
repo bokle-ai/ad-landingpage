@@ -47,13 +47,11 @@ export default function HowItWorks() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={VIEWPORT}
           transition={{ duration: 0.7, delay: 0.08, ease: EASE }}
-          className="font-bold text-white"
-          style={{ fontSize: "clamp(2rem, 4.5vw, 3.5rem)", lineHeight: 1.1 }}
+          className="font-display font-bold text-white"
+          style={{ fontSize: "clamp(1.55rem, 3.4vw, 2.85rem)", lineHeight: 1.12 }}
         >
           From{" "}
-          <span className="italic-serif font-normal text-cream">
-            missed enquiry
-          </span>
+          <span className="text-brand-accent">missed enquiry</span>
           <br />
           to booked appointment.
           <br />

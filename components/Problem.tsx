@@ -22,7 +22,7 @@ export default function Problem() {
         <div>
           <Headline
             as="h2"
-            className="text-[clamp(2rem,5vw,4.25rem)] font-bold leading-[1.0] tracking-[-0.035em] text-white max-w-[15ch]"
+            className="font-display text-[clamp(1.7rem,4vw,3.4rem)] font-bold leading-[1.06] tracking-[-0.02em] text-white max-w-[15ch]"
             lines={[
               { text: "Your competitors" },
               { text: "are responding" },

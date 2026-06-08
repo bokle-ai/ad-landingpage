@@ -143,7 +143,7 @@ export default function DiscoveryForm() {
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="lg:col-span-5"
           >
-            <h2 className="italic-serif text-cream text-5xl md:text-6xl lg:text-7xl leading-[1.02]">
+            <h2 className="font-display font-bold text-cream text-3xl md:text-4xl lg:text-5xl leading-[1.08] tracking-[-0.02em]">
               Let&apos;s find exactly where your leads are leaking.
             </h2>
             <p className="mt-8 text-body text-lg leading-relaxed max-w-md">

@@ -20,7 +20,7 @@ export default function Footer() {
             <div className="flex items-center">
               <img src="/logo.svg" alt="Bokle AI" className="h-10 w-auto" />
             </div>
-            <p className="mt-6 italic-serif text-cream text-2xl leading-[1.15] max-w-sm">
+            <p className="mt-6 text-cream text-xl leading-[1.4] max-w-sm">
               AI agents for businesses that never want to miss a lead.
             </p>
           </div>
