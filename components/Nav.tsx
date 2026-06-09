@@ -11,15 +11,16 @@ const LINKS = [
   { label: "Reviews", href: "#reviews" },
 ];
 
-/* Hover-following pill nav (21st.dev / Hover.dev style), adapted to the
-   dark brand: a white highlight slides to the hovered link and the text
-   inverts over it via mix-blend-difference. */
 function PillNav() {
   const [pos, setPos] = useState({ left: 0, width: 0, opacity: 0 });
+  const [hoveredHref, setHoveredHref] = useState<string | null>(null);
 
   return (
     <ul
-      onMouseLeave={() => setPos((p) => ({ ...p, opacity: 0 }))}
+      onMouseLeave={() => {
+        setPos((p) => ({ ...p, opacity: 0 }));
+        setHoveredHref(null);
+      }}
       className="relative hidden w-fit items-center md:flex"
       style={{
         borderRadius: 9999,
@@ -29,15 +30,28 @@ function PillNav() {
       }}
     >
       {LINKS.map((l) => (
-        <PillTab key={l.href} href={l.href} setPos={setPos}>
+        <PillTab
+          key={l.href}
+          href={l.href}
+          setPos={setPos}
+          setHovered={setHoveredHref}
+          isHovered={hoveredHref === l.href}
+        >
           {l.label}
         </PillTab>
       ))}
+      {/* Neon green liquid pill that slides under the hovered link */}
       <motion.li
         animate={pos}
         transition={{ type: "spring", stiffness: 420, damping: 34 }}
         className="absolute z-0"
-        style={{ top: 5, height: 34, borderRadius: 9999, background: "#ffffff" }}
+        style={{
+          top: 5,
+          height: 34,
+          borderRadius: 9999,
+          background: "#00C60F",
+          boxShadow: "0 0 12px rgba(0,198,15,0.45)",
+        }}
       />
     </ul>
   );
@@ -47,12 +61,17 @@ function PillTab({
   children,
   href,
   setPos,
+  setHovered,
+  isHovered,
 }: {
   children: React.ReactNode;
   href: string;
   setPos: (p: { left: number; width: number; opacity: number }) => void;
+  setHovered: (href: string | null) => void;
+  isHovered: boolean;
 }) {
   const ref = useRef<HTMLLIElement>(null);
+
   return (
     <li
       ref={ref}
@@ -63,6 +82,7 @@ function PillTab({
           opacity: 1,
           left: ref.current.offsetLeft,
         });
+        setHovered(href);
       }}
       className="relative z-10"
     >
@@ -72,11 +92,12 @@ function PillTab({
           display: "block",
           padding: "8px 16px",
           fontSize: 12.5,
-          fontWeight: 600,
+          fontWeight: 700,
+          fontFamily: "var(--font-dm-sans)",
           letterSpacing: "0.04em",
           textTransform: "uppercase",
-          color: "#ffffff",
-          mixBlendMode: "difference",
+          color: isHovered ? "#010801" : "#ffffff",
+          transition: "color 0.12s ease",
           textDecoration: "none",
           whiteSpace: "nowrap",
           cursor: "pointer",
@@ -110,8 +131,8 @@ export default function Nav() {
         transition: "background 0.3s, border-color 0.3s",
       }}
     >
-      <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-4 md:px-10">
-        <a href="#top" aria-label="Bokle AI home">
+      <div className="mx-auto flex max-w-[1400px] items-center justify-between px-4 py-3 md:px-10 md:py-4">
+        <a href="#top" aria-label="Bokle AI home" style={{ flexShrink: 0 }}>
           <img src="/logo.svg" alt="Bokle AI" style={{ height: 36, width: "auto" }} />
         </a>
 
@@ -124,17 +145,20 @@ export default function Nav() {
           style={{
             display: "inline-flex",
             alignItems: "center",
-            gap: 8,
+            gap: 6,
             borderRadius: 9999,
             background: "#00C60F",
             color: "#010801",
             fontWeight: 700,
-            fontSize: 14,
-            padding: "12px 24px",
+            fontFamily: "var(--font-dm-sans)",
+            flexShrink: 0,
           }}
+          className="px-4 py-2.5 text-[13px] md:px-6 md:py-3 md:text-[14px]"
         >
-          Book Your Discovery Call
-          <ArrowRight className="h-4 w-4" />
+          {/* Short label on mobile, full label on desktop */}
+          <span className="md:hidden">Book a Call</span>
+          <span className="hidden md:inline">Book Your Discovery Call</span>
+          <ArrowRight className="h-3.5 w-3.5 md:h-4 md:w-4" />
         </motion.a>
       </div>
     </nav>
