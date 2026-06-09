@@ -56,9 +56,9 @@ function OutcomeCard({ card }: { card: Industry["card"] }) {
     <div
       className="relative w-full max-w-[420px] rounded-2xl p-6"
       style={{
-        background: "linear-gradient(160deg, rgba(0,198,15,0.08), rgba(255,255,255,0.02))",
-        border: "1px solid rgba(0,198,15,0.22)",
-        boxShadow: "0 30px 60px -30px rgba(0,0,0,0.6)",
+        background: "rgba(255,255,255,0.03)",
+        border: "1px solid rgba(255,255,255,0.10)",
+        boxShadow: "0 30px 60px -30px rgba(0,0,0,0.7)",
       }}
     >
       <div className="mb-5 flex items-center gap-2">
@@ -95,7 +95,7 @@ function OutcomeCard({ card }: { card: Industry["card"] }) {
       </div>
 
       <div className="mt-5 border-t border-white/8 pt-4 pl-12">
-        <p className="text-[13px] text-brand-accent">{card.foot}</p>
+        <p className="text-[13px] text-cream/55">{card.foot}</p>
       </div>
     </div>
   );
@@ -122,7 +122,7 @@ export default function Industries() {
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.7, ease: EASE }}
           className="font-display font-bold text-white max-w-[18ch]"
-          style={{ fontSize: "clamp(1.55rem, 3.4vw, 2.85rem)", lineHeight: 1.12, letterSpacing: "-0.02em" }}
+          style={{ fontSize: "clamp(1.55rem, 3.4vw, 2.85rem)", lineHeight: 1.14, letterSpacing: "-0.005em" }}
         >
           Built for businesses where the{" "}
           <span className="text-brand-accent">first reply wins.</span>
@@ -159,18 +159,18 @@ export default function Industries() {
                 aria-selected={isActive}
                 onClick={() => setActive(i)}
                 className="relative inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors"
-                style={{ color: isActive ? "#041007" : "rgba(255,255,255,0.6)" }}
+                style={{ color: isActive ? "#ffffff" : "rgba(255,255,255,0.5)" }}
               >
                 {isActive && (
                   <motion.span
                     layoutId="ind-pill"
                     className="absolute inset-0 rounded-full"
-                    style={{ background: "#00C60F" }}
+                    style={{ background: "rgba(255,255,255,0.10)", border: "1px solid rgba(255,255,255,0.12)" }}
                     transition={{ type: "spring", stiffness: 380, damping: 32 }}
                   />
                 )}
                 <span className="relative z-10 inline-flex items-center gap-2">
-                  <it.Icon size={16} strokeWidth={2.2} />
+                  <it.Icon size={16} strokeWidth={2} style={{ color: isActive ? "#00C60F" : "currentColor" }} />
                   {it.label}
                 </span>
               </button>
@@ -191,15 +191,16 @@ export default function Industries() {
               {/* Text column */}
               <div>
                 <span
-                  className="inline-flex rounded-full px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-brand-accent"
-                  style={{ background: "rgba(0,198,15,0.1)", border: "1px solid rgba(0,198,15,0.3)" }}
+                  className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-cream/75"
+                  style={{ border: "1px solid rgba(255,255,255,0.16)" }}
                 >
+                  <span className="h-1.5 w-1.5 rounded-full" style={{ background: "#00C60F", display: "block" }} />
                   {ind.result}
                 </span>
 
                 <h3
                   className="mt-5 font-display font-bold text-white"
-                  style={{ fontSize: "clamp(1.5rem, 2.8vw, 2.25rem)", lineHeight: 1.1, letterSpacing: "-0.015em" }}
+                  style={{ fontSize: "clamp(1.5rem, 2.8vw, 2.25rem)", lineHeight: 1.14, letterSpacing: "0" }}
                 >
                   {ind.title}
                 </h3>

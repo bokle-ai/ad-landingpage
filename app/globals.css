@@ -13,10 +13,11 @@
   --font-display: "Archivo Variable", system-ui, sans-serif;
 }
 
-/* Display headlines — Archivo at the Expanded width (125%). */
+/* Display headlines — Archivo at a refined expanded width (less extreme
+   than full 125% so letterforms read naturally, not cramped). */
 .font-display {
   font-family: var(--font-display);
-  font-stretch: 125%;
+  font-stretch: 112%;
 }
 
 * {
