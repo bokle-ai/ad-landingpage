@@ -46,7 +46,7 @@ export default function Industries() {
       initial="hidden"
       whileInView="visible"
       viewport={sectionViewport}
-      className="grain-overlay relative overflow-hidden bg-bg-primary py-28 md:py-40"
+      className="grain-overlay relative overflow-hidden bg-bg-primary py-28 md:py-40 scroll-mt-20"
     >
       <div className="mx-auto max-w-[1200px] px-6 md:px-10">
         {/* Heading */}

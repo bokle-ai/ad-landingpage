@@ -32,6 +32,32 @@ export default function Nav() {
           <img src="/logo.svg" alt="Bokle AI" style={{ height: 36, width: "auto" }} />
         </a>
 
+        {/* Navigation links — desktop */}
+        <div className="hidden md:flex" style={{ alignItems: "center", gap: 36 }}>
+          {[
+            { label: "Why Bokle", href: "#problem" },
+            { label: "Industries", href: "#industries" },
+            { label: "How it works", href: "#how" },
+            { label: "Reviews", href: "#reviews" },
+          ].map((l) => (
+            <a
+              key={l.href}
+              href={l.href}
+              style={{
+                fontSize: 14,
+                fontWeight: 500,
+                color: "rgba(255,255,255,0.72)",
+                textDecoration: "none",
+                transition: "color 0.2s",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#ffffff")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.72)")}
+            >
+              {l.label}
+            </a>
+          ))}
+        </div>
+
         <motion.a
           href="#discovery-call"
           whileHover={{ scale: 1.02 }}

@@ -40,11 +40,12 @@ const CARDS = [
 export default function Testimonials() {
   return (
     <motion.section
+      id="reviews"
       variants={sectionReveal}
       initial="hidden"
       whileInView="visible"
       viewport={sectionViewport}
-      className="relative bg-bg-primary"
+      className="relative bg-bg-primary scroll-mt-20"
     >
       {/* Results ticker — unchanged */}
       <ResultsTicker />

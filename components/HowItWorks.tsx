@@ -36,7 +36,7 @@ export default function HowItWorks() {
   return (
     <section
       id="how"
-      className="grain-overlay relative bg-bg-primary"
+      className="grain-overlay relative bg-bg-primary scroll-mt-20"
       style={{ paddingTop: 120, paddingBottom: 120 }}
     >
       <div className="mx-auto max-w-[1200px] px-6 md:px-10">
