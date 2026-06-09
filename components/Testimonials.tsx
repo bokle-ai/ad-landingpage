@@ -75,7 +75,7 @@ export default function Testimonials() {
             >
               {/* Avatar + name row */}
               <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 12 }}>
-                <div style={{ width: 44, height: 44, borderRadius: "50%", overflow: "hidden", flexShrink: 0, border: "1.5px solid rgba(0,198,15,0.35)", position: "relative" }}>
+                <div style={{ width: 44, height: 44, borderRadius: "50%", overflow: "hidden", flexShrink: 0, border: "1.5px solid rgba(255,255,255,0.15)", position: "relative" }}>
                   <Image
                     src={card.photo}
                     alt={card.name}
@@ -116,20 +116,20 @@ export default function Testimonials() {
                 {card.quote}
               </p>
 
-              {/* Metric chip */}
-              <div style={{ marginTop: 24 }}>
+              {/* Result — clean editorial metric, no pill, no green */}
+              <div
+                style={{
+                  marginTop: 24,
+                  paddingTop: 18,
+                  borderTop: "1px solid rgba(255,255,255,0.1)",
+                }}
+              >
                 <span
                   style={{
-                    display: "inline-flex",
-                    background: "rgba(21, 98, 27, 0.4)",
-                    border: "1px solid rgba(0, 198, 15, 0.3)",
-                    borderRadius: 100,
-                    padding: "5px 12px",
-                    color: "#00C60F",
-                    fontWeight: 700,
-                    fontSize: 11,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.1em",
+                    fontSize: 14,
+                    fontWeight: 600,
+                    color: "rgba(245,240,232,0.92)",
+                    letterSpacing: "0.01em",
                   }}
                 >
                   {card.chip}
