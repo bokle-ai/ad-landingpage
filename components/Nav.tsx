@@ -2,12 +2,95 @@
 
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
+
+const LINKS = [
+  { label: "Why Bokle", href: "#problem" },
+  { label: "Industries", href: "#industries" },
+  { label: "How it works", href: "#how" },
+  { label: "Reviews", href: "#reviews" },
+];
+
+/* Hover-following pill nav (21st.dev / Hover.dev style), adapted to the
+   dark brand: a white highlight slides to the hovered link and the text
+   inverts over it via mix-blend-difference. */
+function PillNav() {
+  const [pos, setPos] = useState({ left: 0, width: 0, opacity: 0 });
+
+  return (
+    <ul
+      onMouseLeave={() => setPos((p) => ({ ...p, opacity: 0 }))}
+      className="relative hidden w-fit items-center md:flex"
+      style={{
+        borderRadius: 9999,
+        padding: 5,
+        background: "rgba(255,255,255,0.05)",
+        border: "1px solid rgba(255,255,255,0.12)",
+      }}
+    >
+      {LINKS.map((l) => (
+        <PillTab key={l.href} href={l.href} setPos={setPos}>
+          {l.label}
+        </PillTab>
+      ))}
+      <motion.li
+        animate={pos}
+        transition={{ type: "spring", stiffness: 420, damping: 34 }}
+        className="absolute z-0"
+        style={{ top: 5, height: 34, borderRadius: 9999, background: "#ffffff" }}
+      />
+    </ul>
+  );
+}
+
+function PillTab({
+  children,
+  href,
+  setPos,
+}: {
+  children: React.ReactNode;
+  href: string;
+  setPos: (p: { left: number; width: number; opacity: number }) => void;
+}) {
+  const ref = useRef<HTMLLIElement>(null);
+  return (
+    <li
+      ref={ref}
+      onMouseEnter={() => {
+        if (!ref.current) return;
+        setPos({
+          width: ref.current.getBoundingClientRect().width,
+          opacity: 1,
+          left: ref.current.offsetLeft,
+        });
+      }}
+      className="relative z-10"
+    >
+      <a
+        href={href}
+        style={{
+          display: "block",
+          padding: "8px 16px",
+          fontSize: 12.5,
+          fontWeight: 600,
+          letterSpacing: "0.04em",
+          textTransform: "uppercase",
+          color: "#ffffff",
+          mixBlendMode: "difference",
+          textDecoration: "none",
+          whiteSpace: "nowrap",
+          cursor: "pointer",
+        }}
+      >
+        {children}
+      </a>
+    </li>
+  );
+}
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const { scrollY } = useScroll();
-
   useMotionValueEvent(scrollY, "change", (y) => setScrolled(y > 50));
 
   return (
@@ -32,31 +115,7 @@ export default function Nav() {
           <img src="/logo.svg" alt="Bokle AI" style={{ height: 36, width: "auto" }} />
         </a>
 
-        {/* Navigation links — desktop */}
-        <div className="hidden md:flex" style={{ alignItems: "center", gap: 36 }}>
-          {[
-            { label: "Why Bokle", href: "#problem" },
-            { label: "Industries", href: "#industries" },
-            { label: "How it works", href: "#how" },
-            { label: "Reviews", href: "#reviews" },
-          ].map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              style={{
-                fontSize: 14,
-                fontWeight: 500,
-                color: "rgba(255,255,255,0.72)",
-                textDecoration: "none",
-                transition: "color 0.2s",
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#ffffff")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.72)")}
-            >
-              {l.label}
-            </a>
-          ))}
-        </div>
+        <PillNav />
 
         <motion.a
           href="#discovery-call"
