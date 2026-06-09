@@ -25,7 +25,7 @@ const INDUSTRIES: Industry[] = [
     body: "Patients book with whoever replies first. Bokle answers every enquiry, qualifies the treatment, and books the slot — so your front desk opens to a full schedule, not a list of missed calls.",
     tags: ["After-hours booking", "No-show recovery", "Treatment & pricing FAQs"],
     cta: "See it for your clinic",
-    image: "/industry-healthcare.png",
+    image: "/industry-healthcare.jpg",
   },
   {
     label: "Real Estate",
@@ -34,7 +34,7 @@ const INDUSTRIES: Industry[] = [
     body: "Weekend enquiries go cold by Monday. Bokle replies in seconds, screens budget and intent, books the site visit, and routes hot buyers straight to your agents — even at 11pm on a Sunday.",
     tags: ["Viewing & site-visit booking", "Budget & intent screening", "Weekend cover"],
     cta: "See it for your listings",
-    image: "/industry-realestate.png",
+    image: "/industry-realestate.jpg",
   },
 ];
 
