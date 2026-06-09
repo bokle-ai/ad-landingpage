@@ -11,14 +11,11 @@ export default function Nav() {
   useMotionValueEvent(scrollY, "change", (y) => setScrolled(y > 50));
 
   return (
-    <motion.nav
-      initial={{ y: -40, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+    <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
           ? "backdrop-blur-xl bg-bg-primary/80 border-b border-white/5"
-          : "bg-transparent"
+          : "bg-bg-primary/40 backdrop-blur-sm"
       }`}
     >
       <div className="mx-auto max-w-[1400px] px-6 md:px-10 py-4 flex items-center justify-between">
@@ -36,6 +33,6 @@ export default function Nav() {
           <ArrowRight className="h-4 w-4" />
         </motion.a>
       </div>
-    </motion.nav>
+    </nav>
   );
 }
