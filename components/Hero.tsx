@@ -431,7 +431,7 @@ function WhatsAppScreen() {
 
         <div style={{ flex: 1, minWidth: 0 }}>
           <p style={{ fontSize: 13.5, fontWeight: 600, color: "#fff", lineHeight: 1.2 }}>
-            Lotus Dental Clinic
+            Aarav M.
           </p>
           <p style={{ fontSize: 10.5, color: "rgba(255,255,255,0.7)", marginTop: 1 }}>
             online
@@ -480,7 +480,7 @@ function WhatsAppScreen() {
                 }}
               >
                 <p style={{ margin: 0, fontSize: 12.5, color: "#111b21", lineHeight: 1.4 }}>
-                  Hi, I run a dental clinic and we&apos;re losing leads every night after 7pm. Saw your ad.
+                  Hi, we keep losing leads every night after we close. Saw your ad.
                 </p>
                 <p style={{ fontSize: 10, color: "#667781", marginTop: 2, textAlign: "right" }}>09:41</p>
               </div>
@@ -530,7 +530,7 @@ function WhatsAppScreen() {
                 }}
               >
                 <p style={{ margin: 0, fontSize: 12.5, color: "#111b21", lineHeight: 1.4 }}>
-                  That&apos;s exactly what we fix. Most dental clinics recover 40–60% of those leads — we can have your WhatsApp agent live in 48 hours. What times are you missing the most calls?
+                  That&apos;s exactly what we fix. Most businesses recover 40–60% of those leads — and we can have your AI agent live in 48 hours. When are you missing the most enquiries?
                 </p>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 3, marginTop: 2 }}>
                   <p style={{ fontSize: 10, color: "#667781" }}>09:41</p>
@@ -679,7 +679,7 @@ function VoiceScreen() {
 
         {/* Name + timer */}
         <p style={{ fontSize: 21, fontWeight: 600, color: "#fff", marginBottom: 6 }}>
-          Lotus Dental Clinic
+          Aarav M.
         </p>
         <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 26 }}>
           {/* live audio dots */}
@@ -810,7 +810,7 @@ function WebChatScreen() {
 
         <div style={{ flex: 1 }}>
           <p style={{ fontSize: 12.5, fontWeight: 600, color: "#fff", lineHeight: 1.2 }}>
-            Lotus Dental Clinic
+            Aarav M.
           </p>
           <div style={{ display: "flex", alignItems: "center", gap: 5, marginTop: 2 }}>
             <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#22C55E", display: "block" }} />
@@ -882,7 +882,7 @@ function WebChatScreen() {
                 }}
               >
                 <p style={{ margin: 0, fontSize: 11.5, color: "#fff", lineHeight: 1.5 }}>
-                  Yes — we run an aesthetic clinic and lose leads after hours.
+                  Yes — we lose leads after hours and on weekends.
                 </p>
               </div>
             </motion.div>
@@ -909,7 +909,7 @@ function WebChatScreen() {
                 }}
               >
                 <p style={{ margin: 0, fontSize: 11.5, color: "#1F2937", lineHeight: 1.5 }}>
-                  We handle that a lot — agents for clinics go live in under 48 hours. Which channel do you miss most?
+                  We handle that a lot — agents go live in under 48 hours. Which channel do you miss most?
                 </p>
               </div>
             </motion.div>
